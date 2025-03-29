@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Host;
 
-use auth;
+use Auth;
 use App\Models\Admin\Tag;
 use App\Models\Host\Host;
 use App\Models\SiteDefault;
@@ -11,6 +11,7 @@ use App\Models\Host\Invitation;
 use App\Models\Host\MemberTask;
 use App\Models\Admin\Testimonial;
 use App\Http\Controllers\Controller;
+use App\Models\Host\Ceramony;
 
 class HostController extends Controller
 {
@@ -99,11 +100,35 @@ class HostController extends Controller
 
 
                 $tasks = MemberTask::where('invitation_id', optional($invitation)->id)->with('assignable', 'category')->oldest('startDate')->get();
+
+                // Fetch ceremonies associated with the invitation
+                $ceremonies = [];
+                if ($invitation) {
+                    $ceremonies = Ceramony::where('invitation_id', $invitation->id)
+                    ->get()
+                    ->map(function ($ceremony) {
+                        return [
+                            'title' => $ceremony->name,
+                            'startDate' => $ceremony->startDate,
+                            'startTime' => $ceremony->startTime,
+                            'category' => ['name' => 'Ceremony'],
+                            'assignable' => ['name' => 'Host'],
+                            'taskPriority' => 'High',
+                            'id' => $ceremony->id,
+                            'type' => 'ceremony',
+                        ];
+                    });
+                }
+
+
+                // Merge ceremonies with tasks
+                $allTasks = $tasks->concat($ceremonies);
+
                 $active = 'home';
                 //dd($tasks);
                 //$notifications = ['ddfdsf','fdfdsfdsfds'];
-                return view('host.welcome', compact('host', 'guests', 'invitationCount','guestCount','invitation', 'invitationsaccepted', 'invitationsdeclined', 'invitationspending', 'notifications', 'sentAccomodation', 'accAccomodation', 'allAccomodation', 'sentLogistics', 'accLogisitcs', 'allLogisitcs', 'decAccomodation', 'decLogisitcs','members', 'tasks', 'active'));
-            
+                return view('host.welcome', compact('host', 'guests', 'invitationCount','guestCount','invitation', 'invitationsaccepted', 'invitationsdeclined', 'invitationspending', 'notifications', 'sentAccomodation', 'accAccomodation', 'allAccomodation', 'sentLogistics', 'accLogisitcs', 'allLogisitcs', 'decAccomodation', 'decLogisitcs','members', 'tasks', 'active'))
+                ->with('tasks', $allTasks); // Pass the combined tasks
 
         }
         else {

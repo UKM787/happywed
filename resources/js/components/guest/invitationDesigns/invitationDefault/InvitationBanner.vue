@@ -2,12 +2,12 @@
     <div>
         <div class="guest-invi-navbar-cont">
             <div class="guest-invi-navbar container">
-                <!-- <a :href="route('guestwelcome.index', guest)">
+                <a :href="route('guestwelcome.index', guest)">
                     <span v-if="screenWidth < 768">
                         <img src="/assets/guestDash/home.svg" alt="" />
                     </span>
                     Welcome
-                </a> -->
+                </a> 
                 <div
                     :class="{ active: active == 'banner' }"
                     @click="scrollToTargetAdjusted('banner')"
@@ -27,7 +27,7 @@
                     </span>
                     Ceremony
                 </div>
-                <div
+                <!--<div
                     :class="{ active: active == 'accomodation' }"
                     v-if="invitation.guest_invitation.accommodation == 1"
                     @click="scrollToTargetAdjusted('accomodation')"
@@ -46,7 +46,7 @@
                         <img src="/assets/guestInvi/logistics.svg" alt="" />
                     </span>
                     Logistics
-                </div>
+                </div>-->
                 <div
                     :class="{ active: active == 'gallery' }"
                     @click="scrollToTargetAdjusted('gallery')"
@@ -247,7 +247,7 @@
             class="gallery-all-cont wed-host-gallery container-md"
         >
             <div>
-                <div
+                <!--<div
                     @click="
                         activeGallery = 'Pictures';
                         clickedAlbum = [];
@@ -257,7 +257,7 @@
                     }"
                 >
                     Pictures
-                </div>
+                </div>-->
                 <div
                     @click="
                         activeGallery = 'Albums';
@@ -282,7 +282,7 @@
                 </div>
             </div>
             <div class="wed-host-gallery-items">
-                <div v-if="activeGallery == 'Pictures'">
+                <!--<div v-if="activeGallery == 'Pictures'">
                     <div
                         v-for="(item, index) in galleries"
                         :key="index"
@@ -295,7 +295,7 @@
                             alt=""
                         />
                     </div>
-                </div>
+                </div>-->
                 <div
                     id="all-albums"
                     v-if="activeGallery == 'Albums' && clickedAlbum.length == 0"

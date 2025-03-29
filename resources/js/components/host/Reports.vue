@@ -162,8 +162,8 @@
                     <span style="width: 26%">E-mail</span>
                     <span style="width: 11%">Invite</span>
                     <span style="width: 11%">Status</span>
-                    <span style="width: 11%">Accommodation</span>
-                    <span style="width: 11%">Logistics</span>
+                    <!--<span style="width: 11%">Accommodation</span>
+                    <span style="width: 11%">Logistics</span>-->
                 </div>
                 <div class="host-reports-content">
                     <div
@@ -275,7 +275,7 @@
                                 ><span class="dot-icon"></span>Not Seen</span
                             >
                         </div>
-                        <div style="width: 11%">
+                        <!--<div style="width: 11%">
                             <span
                                 class="no-invite"
                                 v-if="item.pivot.invite == 0"
@@ -319,8 +319,8 @@
                                     src="/assets/acc-grey.svg"
                                     alt=""
                             /></span>
-                        </div>
-                        <div style="width: 11%">
+                        </div>-->
+                         <!--- <div style="width: 11%">
                             <span
                                 class="no-invite"
                                 v-if="item.pivot.invite == 0"
@@ -328,7 +328,7 @@
                                     >No Invite</span
                                 ></span
                             >
-                            <span
+                          <span
                                 class="no-invite"
                                 v-else-if="
                                     item.pivot.logisticsArrivalStatus == 0 ||
@@ -380,7 +380,7 @@
                                     alt=""
                                 />
                             </span>
-                        </div>
+                        </div>-->
                         <div>
                             <i class="fas fa-chevron-down drop-arrow"></i>
                             <i class="fas fa-chevron-up drop-arrow"></i>

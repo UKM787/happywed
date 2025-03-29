@@ -65,18 +65,30 @@
                             <div>
                                 <div v-for="e in item.venues" :key="e.name">
                                     {{ e.name }} {{ e.location?.name ? ', '+e.location?.name   : '' }}
-                        {{ e.location?.state  ? ', '+e.location?.state?.name : ''}} {{ (e.location == null  && e.address != null)? ', '+e.address : '' }}
+                                    {{ e.location?.state  ? ', '+e.location?.state?.name : ''}} 
+                                    {{ (e.location == null  && e.address != null)? ', '+e.address : '' }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div
-                v-if="popupCera"
-                class="cere-popup-container"
-                @click="popupCera = null"
-            >
+            <div v-if="popupCera" class="cere-popup-container">
+                <div class="cere-popup-nav">
+                    <button
+                        @click.stop="prevCeremony"
+                        :disabled="currentIndex === 0"
+                    >
+                        Prev
+                    </button>
+                    <button
+                        @click.stop="nextCeremony"
+                        :disabled="currentIndex === ceramonies.length - 1"
+                    >
+                        Next
+                    </button>
+                </div>
+                <div @click="popupCera = null" class="cere-popup-close">X</div>
                 <component
                     @ceraClose="popupCera = null"
                     :ceremony="popupCera"
@@ -121,7 +133,17 @@ export default {
     data() {
         return {
             popupCera: null,
+            currentIndex: 0,
         };
+    },
+    watch: {
+        popupCera(newVal) {
+            if (newVal) {
+                this.currentIndex = this.ceramonies.findIndex(
+                    (c) => c.id === newVal.id
+                );
+            }
+        },
     },
     methods: {
         titleCase(str) {
@@ -136,6 +158,18 @@ export default {
             }
             // Directly return the joined string
             return splitStr.join(" ");
+        },
+        nextCeremony() {
+            if (this.currentIndex < this.ceramonies.length - 1) {
+                this.currentIndex++;
+                this.popupCera = this.ceramonies[this.currentIndex];
+            }
+        },
+        prevCeremony() {
+            if (this.currentIndex > 0) {
+                this.currentIndex--;
+                this.popupCera = this.ceramonies[this.currentIndex];
+            }
         },
     },
     computed: {
@@ -255,6 +289,22 @@ export default {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.cere-popup-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 0 20px;
+}
+.cere-popup-close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
 }
 .cere-popup-container::-webkit-scrollbar {
     display: none;

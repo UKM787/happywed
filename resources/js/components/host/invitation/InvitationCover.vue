@@ -31,7 +31,7 @@
                             : (show = 'brideFeilds')
                     "
                 >
-                    Bride’s Info
+                    Bride's Info
                     <img
                         v-if="screenWidth <= 576 && show != 'brideFeilds'"
                         src="/assets/hosthome/pink-arr-up.svg"
@@ -46,7 +46,7 @@
                 <div v-if="show == 'brideFeilds' || screenWidth >= 576">
                     <div class="form-group">
                         <label for="brideName">
-                            Bride’s name
+                            Bride's name
                             <input
                                 type="text"
                                 name="brideName"
@@ -63,7 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label for="brideNumber">
-                            Bride’s Mobile Number
+                            Bride's Mobile Number
                             <input
                                 type="text"
                                 name="brideNumber"
@@ -80,7 +80,7 @@
                     </div>
                     <div class="form-group">
                         <label for="brideEmail">
-                            Bride’s Email
+                            Bride's Email
                             <input
                                 type="text"
                                 name="brideEmail"
@@ -97,7 +97,7 @@
                     </div>
                     <div class="form-group">
                         <label for="brideMotherName">
-                            Bride’s Mother’s name
+                            Bride's Mother's name
                             <input
                                 type="text"
                                 name="brideMotherName"
@@ -114,7 +114,7 @@
                     </div>
                     <div class="form-group">
                         <label for="brideFatherName">
-                            Bride’s Father’s name
+                            Bride's Father's name
                             <input
                                 type="text"
                                 name="brideFatherName"
@@ -139,7 +139,7 @@
                             : (show = 'groomInfo')
                     "
                 >
-                    Grooms’s Info
+                    Grooms's Info
                     <img
                         v-if="screenWidth <= 576 && show != 'groomInfo'"
                         src="/assets/hosthome/pink-arr-up.svg"
@@ -154,7 +154,7 @@
                 <div v-if="show == 'groomInfo' || screenWidth >= 576">
                     <div class="form-group">
                         <label for="groomName">
-                            Groom’s name
+                            Groom's name
                             <input
                                 type="text"
                                 name="groomName"
@@ -171,7 +171,7 @@
                     </div>
                     <div class="form-group">
                         <label for="groomNumber">
-                            Groom’s Mobile Number
+                            Groom's Mobile Number
                             <input
                                 type="text"
                                 name="groomNumber"
@@ -188,7 +188,7 @@
                     </div>
                     <div class="form-group">
                         <label for="groomEmail">
-                            Groom’s Email
+                            Groom's Email
                             <input
                                 type="text"
                                 name="groomEmail"
@@ -205,7 +205,7 @@
                     </div>
                     <div class="form-group">
                         <label for="groomMotherName">
-                            Groom’s Mother’s name
+                            Groom's Mother's name
                             <input
                                 type="text"
                                 name="groomMotherName"
@@ -222,7 +222,7 @@
                     </div>
                     <div class="form-group">
                         <label for="groomFatherName">
-                            Groom’s father’sname
+                            Groom's father'sname
                             <input
                                 type="text"
                                 name="groomFatherName"
@@ -399,23 +399,18 @@
                     </div>
                 </div>
                 <div class="invi-card-content">
+                    <h4>The Pleasure of your company is requested at the marriage of</h4>
                     <h1>{{ invi?.side == 'bride' ? invi.brideName : invi.groomName }}</h1>
                     <p>WEDS</p>
                     <h1>{{ invi?.side == 'groom' ? invi.brideName : invi.groomName }}</h1>
-                    <p class="text">
-                        THE PLEASURE OF YOUR COMPANY IS REQUESTED AT THE
-                        MARRIAGE
-                    </p>
+                    <h4>On {{ invi.startDate | moment("dddd, Do MMMM YYYY, LT") }} Onwards</h4>
+                    <p style="font-size: 24px;"> <b>@</b></p>
                     <div v-for="item in invi.venues" :key="item.id">
-                        <h1>{{ item.name }}</h1>
-                        <!-- <p>
-                            {{ item.address }}, {{ item.location.name }},
-                            {{ item.location.state }}
-                        </p> -->
-                        <p>{{ invi.city }}, {{ invi.state }}</p>
+                        
+                        <h1> {{ item.name}}</h1>
+                        <p>{{ item.address}}</p>
                     </div>
-                    <h4>{{ invi.startDate | moment("dddd, Do") }}</h4>
-                    <h4>{{ invi.startDate | moment("MMMM YYYY LT") }}</h4>
+                    
                 </div>
             </div>
         </div>
@@ -751,6 +746,7 @@ export default {
     line-height: 21px;
     color: #000000;
     margin-bottom: 6px;
+    text-transform: uppercase;
 }
 .invi-card-content > .text {
     font-family: "Chenla";

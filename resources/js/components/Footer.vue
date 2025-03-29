@@ -142,7 +142,7 @@
             </div>
         </div>
         <div class="footer-latest-section3 container-lg">
-            <div>Copyright © 2023. Happywed. All rights reserved.</div>
+            <div>Copyright © 2025. Happywed. All rights reserved.</div>
             <div>
                 <!-- <a href="/terms-and-conditions" style="margin-right: 4em"
                     >Terms & Conditions</a

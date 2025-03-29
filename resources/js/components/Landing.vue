@@ -47,14 +47,34 @@
             <div class="row sec-one-second-box">
                 <div>
                     <div class="main_nav_links">
-                        <a href="/manager-tools">
+                       <!--<a href="/manager-tools">
                             <img
                                 src="/assets/landing_page/Frame_74.png"
                                 alt=""
                             />
                             <p>Manager tools</p>
-                        </a>
-                        <a href="/wedding-venues">
+                       </a>-->
+                       <a href="host/invitations">
+                        <img src="/assets/manager_tools/invitation.png" style="height: 65px;" alt="">
+                        <p>Invitation</p>
+                       </a>
+                       <a href="host/savedate">
+                        <img src="/assets/manager_tools/savethedate.png" style="height: 65px;" alt="">
+                        <p>Save the date</p>
+                       </a>
+                       <a href="host/ceramony">
+                        <img src="/assets/manager_tools/ceramonies.png" style="height: 65px;" alt="">
+                        <p>Ceremonies</p>
+                       </a>
+                       <a href="host/story">
+                        <img src="/assets/manager_tools/guestlist.png" style="height: 65px;" alt="">
+                        <p>Guestlist</p>
+                       </a>
+                       <a href="host/invitationcontact">
+                        <img src="/assets/manager_tools/helipline.png" style="height: 65px;" alt="">
+                        <p>Helpline</p>
+                       </a>
+                       <!-- <a href="/wedding-venues">
                             <img
                                 src="/assets/landing_page/Frame_71.png"
                                 alt=""
@@ -74,7 +94,7 @@
                                 alt=""
                             />
                             <p>Wedding vendors</p>
-                        </a>
+                        </a>-->
                     </div>
                 </div>
             </div>
@@ -100,7 +120,7 @@
                 as smooth and stress-free as possible.
             </h3>
             <div>
-                <a href="/manager-tools">
+                <!--<a href="/manager-tools">
                     <div><img src="/assets/landing_page/3.png" alt="" /></div>
                     <p>Manager tools</p>
                     <p>Guaranteed Planning for Events</p>
@@ -119,10 +139,10 @@
                     <div><img src="/assets/landing_page/5.png" alt="" /></div>
                     <p>Wedding vendors</p>
                     <p style="color: #138ab3">Coming Soon...</p>
-                </a>
+                </a>-->
             </div>
         </div>
-        <div
+        <!--<div
             id="section-3"
             class="container-md"
             style="margin-top: 4em; margin-bottom: 4em"
@@ -135,14 +155,14 @@
                         wedding day
                     </h3>
                 </div>
-                <!-- <p>
+                <p>
                     Whether you're looking for a traditional venue or something
                     more unique, <a :href="route('welcome')">happywed</a> has
                     everything you need to make your dream wedding a reality. We
                     work with some of the best wedding venues in the country to
                     provide you with a diverse range of options that cater to
                     every budget and taste.
-                </p> -->
+                </p> 
                 <p>
                     Whether you're looking for a traditional venue or something
                     more unique, Discover everything you need to make your dream
@@ -191,8 +211,8 @@
                     </p>
                 </div>
             </div>
-        </div>
-        <div id="section-4" class="container-fluid">
+        </div>-->
+        <!--<div id="section-4" class="container-fluid">
             <div class="row" style="margin: 5em">
                 <div class="col-lg-4 sec-4-head">
                     <h3>Smart tools to Manage your wedding</h3>
@@ -202,7 +222,7 @@
                         booking accommodations for your guests, you can easily
                         manage every aspect of your wedding.
                     </p>
-                    <!-- <a href="/directory">Explore wedding vendors</a> -->
+                   <a href="/directory">Explore wedding vendors</a> 
                 </div>
                 <div class="col-lg-2 sec-4-mid">
                     <img src="/assets/landing_page/Group.png" alt="" />
@@ -213,8 +233,8 @@
                     <img src="/assets/landing_page/13.png" alt="" />
                 </div>
             </div>
-        </div>
-        <div id="section-5" class="container-fluid position-relative">
+        </div>-->
+        <!--<div id="section-5" class="container-fluid position-relative">
             <div>
                 <img
                     style="width: 100%"
@@ -230,7 +250,7 @@
                     Wedding Ceremony, and Reception Ideas, Budget-Friendly
                     Wedding Planning Ideas
                 </p>
-                <!-- <a href="/ideas-and-inspiration">Explore ideas & inspiration</a> -->
+               <a href="/ideas-and-inspiration">Explore ideas & inspiration</a> 
             </div>
             <div>
                 <div>
@@ -249,7 +269,7 @@
                     />
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="new-revi-cont">
             <div class="pink-bar"></div>
             <h1 class="top-heading">Testimonials of what our clients thinks</h1>
@@ -644,7 +664,7 @@ export default {
 .sec-one-head > div:nth-child(3) > button:nth-child(2) > img {
     width: 16px;
     height: 16px;
-    margin-right: 10px;
+    margin-right: 25px;
 }
 .sec-one-second-box {
     padding-top: 29%;
@@ -667,7 +687,7 @@ export default {
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    margin: 0 10px;
+    margin: 0 35px;
 }
 .main_nav_links > a > img {
     margin-bottom: 12px;

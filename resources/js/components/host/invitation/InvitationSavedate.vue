@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="guest-banner-slogan">
-                            <div>We can’t wait to celebrate with you!</div>
+                            <div>Happy to celebrate this special day with you!</div>
                             <div>
                                 With pride and joy, we invite you to share a
                                 special day in our lives as we…

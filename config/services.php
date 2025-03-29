@@ -32,14 +32,14 @@ return [
 
     'facebook' => [
         'client_id' => '865743364754534',  //USE FROM FACEBOOK DEVELOPER ACCOUNT
-        'client_secret' => '23738ee08e476e3277bffefa27135a4b', //'115722ec9ca27ec92b74407da5af5d9a',//USE FROM FACEBOOK DEVELOPER ACCOUNT
-        'redirect' => 'https://happywed.co.in/facebook/callback/'
+        'client_secret' => '23738ee08e476e3277bffefa27135a4b',
+        'redirect' => 'https://happywed.co.in/facebook/callback/',
     ],
 
     'google' => [
         'client_id'     =>  '375252225988-bebjcrq9fiuraemv8j0l1d4odrv3dcjq.apps.googleusercontent.com',
         'client_secret' =>  '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',
-        'redirect'      => 'https://happywed.co.in/google/callback'
+        'redirect'      => 'https://happywed.co.in/google/callback',
     ],
 
 ];

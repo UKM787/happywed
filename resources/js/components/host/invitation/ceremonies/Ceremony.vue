@@ -535,7 +535,7 @@
                                 </ValidationProvider>
                                 <!-- <div class="add-venue-link-cont">
                                     <a href="/host/venues/create"
-                                        >Could’nt find a perfect venue? Add
+                                        >Could'nt find a perfect venue? Add
                                         One!!</a
                                     >
                                 </div> -->
@@ -567,6 +567,7 @@
                             />
                             <div>
                                 <img
+                                    v-if="item.name.toLowerCase() !== 'wedding'"
                                     :class="{
                                         disabled: disabledEdit,
                                     }"
@@ -575,6 +576,7 @@
                                     alt=""
                                 />
                                 <img
+                                    v-if="item.name.toLowerCase() !== 'wedding'"
                                     src="/assets/ceramonies/trash.svg"
                                     alt=""
                                     :class="{

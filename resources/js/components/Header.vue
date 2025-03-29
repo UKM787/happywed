@@ -16,11 +16,11 @@
                 /></a>
             </div>
             <div class="landing-header-middle">
-                <a href="/" class="active">Home</a>
-                <a href="/manager-tools">Manager tools</a>
-                <a href="/directory/vendors/venues">Wedding venues</a>
+                <a href="/" class="active">HOME</a>
+                <a href="/manager-tools">MANAGER TOOLS</a>
+                <!--<a href="/directory/vendors/venues">Wedding venues</a>
                 <a href="/ideas-and-inspiration">Ideas and inspiration</a>
-                <a href="/vendor-directory">Wedding vendors</a> 
+                <a href="/vendor-directory">Wedding vendors</a>--> 
             </div>
             <div class="landing-header-middle-2">
                 <a style="margin-left: 10px" href="/"
@@ -32,13 +32,14 @@
             </div>
             <div class="landing-header-right">
                 <div v-if="loggedIn">
+                    <a id="dashboard-btn" :href="href">Dashboard</a>
                     <a
                         id="logout-btn"
                         :href="route('logoutAll')"
                         @click.prevent="logout()"
                         >LOGOUT</a
                     >
-                    <a id="dashboard-btn" :href="href">Dashboard</a>
+                    
                     <a
                         :href="route('logoutAll')"
                         @click.prevent="logout()"
@@ -106,7 +107,7 @@
                 </div>
                 <p>Manager Tools</p>
             </a>
-            <a href="/wedding-venues" class="landing-mobile-links-single">
+            <!--<a href="/wedding-venues" class="landing-mobile-links-single">
                 <div>
                     <img src="/assets/landing_page/4.svg" alt="" />
                 </div>
@@ -120,7 +121,7 @@
                     <img src="/assets/landing_page/3.svg" alt="" />
                 </div>
                 <p>Ideas & Insipiration</p>
-            </a>
+            </a>-->
             <!-- <a href="/vendor-directory" class="landing-mobile-links-single">
                 <div>
                     <img src="/assets/landing_page/2.svg" alt="" />
@@ -237,7 +238,8 @@ export default {
     margin-bottom: 7px;
 }
 .landing-header-middle {
-    text-align: center;
+    text-align: left;
+    margin-left: -500px;
 }
 .landing-header-right {
     display: flex;
@@ -253,10 +255,11 @@ export default {
     font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
-    font-size: 13px;
+    font-size: 16px;
     line-height: 20px;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 50px;
+    padding-right: 19px;
     padding-top: 7px;
     margin-right: 10px;
     color: #ffffff;

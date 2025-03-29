@@ -12,21 +12,17 @@
                 </div>
                 <div>
                     <img src="/assets/guestInvi/18.png" alt="" />
-                    <span
-                        >{{ new Date(invi.startDate).getDate() }}.{{
-                            new Date(invi.startDate).getMonth()
-                        }}.{{ new Date(invi.startDate).getFullYear() }}</span
-                    >
+                    <span>
+    {{ new Date(invi.startDate).getDate() }}.{{
+        (new Date(invi.startDate).getMonth() + 1).toString().padStart(2, '0')
+    }}.{{ new Date(invi.startDate).getFullYear() }}
+</span>
+
                     <img src="/assets/guestInvi/17.png" alt="" />
                 </div>
             </div>
-            <img
-                @click="$emit('editstory')"
-                v-if="edit"
-                class="edit-story"
-                src="/assets/miscellenous/edit.svg"
-                alt=""
-            />
+            <img @click="$emit('editstory')" v-if="edit" class="edit-story" src="/assets/miscellenous/edit.svg"
+                alt="" />
         </div>
         <div class="guest-story-second">
             <div class="guest-story-head-common">
@@ -90,7 +86,8 @@
                 </div>
             </div>
         </div>
-        <div v-if="ourStory.first_meet || ourStory.relation_start || ourStory.marriage_decide" class="guest-story-timeline-cont">
+        <div v-if="ourStory.first_meet || ourStory.relation_start || ourStory.marriage_decide"
+            class="guest-story-timeline-cont">
             <div class="guest-story-head-common">
                 <h1>OUR - LOVE STORY - TIMELINE</h1>
                 <p>wedding</p>
@@ -110,17 +107,14 @@
                 </div> -->
                 <div v-if="ourStory.first_meet" class="guest-story-timeline-single reverse">
                     <div>
-                        <img
-                            :src="'/storage/' + ourStory.first_meet_image"
-                            alt=""
-                        />
+                        <img :src="'/storage/' + ourStory.first_meet_image" alt="" />
                     </div>
                     <div>
                         <h3>First meet</h3>
                         <h5>
                             {{
                                 ourStory.first_meet_date
-                                    | moment("DD MMMM YYYY")
+                                | moment("DD MMMM YYYY")
                             }}
                         </h5>
                         <p>
@@ -130,17 +124,14 @@
                 </div>
                 <div v-if="ourStory.relation_start" class="guest-story-timeline-single">
                     <div>
-                        <img
-                            :src="'/storage/' + ourStory.relation_start_image"
-                            alt=""
-                        />
+                        <img :src="'/storage/' + ourStory.relation_start_image" alt="" />
                     </div>
                     <div>
                         <h3>The day we exchanged our hearts</h3>
                         <h5>
                             {{
                                 ourStory.relation_start_date
-                                    | moment("DD MMMM YYYY")
+                                | moment("DD MMMM YYYY")
                             }}
                         </h5>
                         <p>
@@ -150,17 +141,14 @@
                 </div>
                 <div v-if="ourStory.marriage_decide" class="guest-story-timeline-single reverse">
                     <div>
-                        <img
-                            :src="'/storage/' + ourStory.marriage_decide_image"
-                            alt=""
-                        />
+                        <img :src="'/storage/' + ourStory.marriage_decide_image" alt="" />
                     </div>
                     <div>
                         <h3>The day we decided to marry</h3>
                         <h5>
                             {{
                                 ourStory.marriage_decide_date
-                                    | moment("DD MMMM YYYY")
+                                | moment("DD MMMM YYYY")
                             }}
                         </h5>
                         <p>
@@ -178,11 +166,7 @@
             <section id="image-single-cont" class="splide">
                 <div class="splide__track">
                     <ul class="splide__list">
-                        <li
-                            v-for="(item, index) in ourStory.images"
-                            :key="index"
-                            class="splide__slide"
-                        >
+                        <li v-for="(item, index) in ourStory.images" :key="index" class="splide__slide">
                             <div class="image-single">
                                 <img :src="'/' + item" alt="" />
                             </div>
@@ -308,14 +292,14 @@ export default {
         this.$nextTick(function () {
             this.countDown();
         });
-        if(!this.edit){
+        if (!this.edit) {
             document.onreadystatechange = () => {
                 if (document.readyState == "complete") {
                     this.spliderEvent();
                 }
             };
         }
-        
+
     },
 };
 </script>
@@ -331,13 +315,15 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.guest-story-cont > img {
+
+.guest-story-cont>img {
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     object-fit: cover;
 }
+
 .edit-story {
     position: absolute;
     top: 20px;
@@ -346,7 +332,8 @@ export default {
     height: 40px !important;
     z-index: 99999;
 }
-.guest-story-cont > .overlay {
+
+.guest-story-cont>.overlay {
     background: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
@@ -354,6 +341,7 @@ export default {
     top: 0;
     z-index: 999;
 }
+
 .guest-story-main-img {
     display: flex;
     justify-content: center;
@@ -363,7 +351,8 @@ export default {
     z-index: 999999;
     top: 35%;
 }
-.guest-story-main-img > div:nth-child(2) > span {
+
+.guest-story-main-img>div:nth-child(2)>span {
     font-family: "STSong";
     font-style: normal;
     font-weight: 400;
@@ -372,7 +361,8 @@ export default {
     text-transform: uppercase;
     color: #ffffff;
 }
-.guest-story-main-img > div:nth-child(2) > span:nth-child(2) {
+
+.guest-story-main-img>div:nth-child(2)>span:nth-child(2) {
     font-family: "Stalemate";
     font-style: normal;
     font-weight: 400;
@@ -382,7 +372,8 @@ export default {
     margin: 0 15px;
     text-transform: none;
 }
-.guest-story-main-img > div:nth-child(3) > span {
+
+.guest-story-main-img>div:nth-child(3)>span {
     font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
@@ -390,7 +381,8 @@ export default {
     line-height: 32px;
     color: #ffffff;
 }
-.guest-story-head-common > h1 {
+
+.guest-story-head-common>h1 {
     font-family: "Segoe UI";
     font-style: normal;
     font-weight: 600;
@@ -400,7 +392,8 @@ export default {
     color: #7f004b;
     text-align: center;
 }
-.guest-story-head-common > p {
+
+.guest-story-head-common>p {
     font-family: "Stalemate";
     font-style: normal;
     font-weight: 400;
@@ -409,16 +402,19 @@ export default {
     color: #7f004b;
     text-align: center;
 }
+
 .guest-story-second {
     padding: 42px;
     background-color: #ffffff;
 }
+
 .guest-story-sec-content {
     display: flex;
     width: 60%;
     margin: auto;
     justify-content: space-between;
 }
+
 .guest-story-sec-content-single {
     width: 45%;
     display: flex;
@@ -426,12 +422,14 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.guest-story-sec-content-single > img {
+
+.guest-story-sec-content-single>img {
     width: 164px;
     height: 159px;
     border-radius: 50%;
 }
-.guest-story-sec-content-single > h3 {
+
+.guest-story-sec-content-single>h3 {
     font-family: "Stalemate";
     font-style: normal;
     font-weight: 400;
@@ -441,7 +439,8 @@ export default {
     color: #7f004b;
     margin-bottom: 15px;
 }
-.guest-story-sec-content-single > p {
+
+.guest-story-sec-content-single>p {
     font-family: "Segoe UI";
     font-style: normal;
     font-weight: 350;
@@ -451,6 +450,7 @@ export default {
 
     color: #000000;
 }
+
 .guest-story-timer-cont {
     display: flex;
     justify-content: space-between;
@@ -460,6 +460,7 @@ export default {
     background-position: 0 0;
     background-size: 100% 100%;
 }
+
 .guest-story-timer-text {
     font-family: "Stalemate";
     font-style: normal;
@@ -470,7 +471,8 @@ export default {
     position: relative;
     padding: 10px 5px;
 }
-.guest-story-timer-text > span {
+
+.guest-story-timer-text>span {
     position: absolute;
     top: 0;
     right: 0;
@@ -483,10 +485,12 @@ export default {
     color: #ffffff;
     display: inline-block;
 }
+
 .guest-story-timer {
     display: flex;
     align-items: center;
 }
+
 .guest-story-timer-single {
     background: #ffffff;
     backdrop-filter: blur(2.27683px);
@@ -498,10 +502,12 @@ export default {
     width: 85px;
     height: 76px;
 }
+
 .guest-story-timer:last-child {
     margin-right: 0;
 }
-.guest-story-timer-single > span:nth-child(1) {
+
+.guest-story-timer-single>span:nth-child(1) {
     font-family: "Segoe UI";
     font-style: normal;
     font-weight: 400;
@@ -511,7 +517,8 @@ export default {
     text-align: center;
     color: #7f004b;
 }
-.guest-story-timer-single > span:nth-child(2) {
+
+.guest-story-timer-single>span:nth-child(2) {
     font-family: "Segoe UI";
     font-style: normal;
     font-weight: 350;
@@ -521,37 +528,45 @@ export default {
     display: block;
     text-align: center;
 }
+
 .guest-story-timeline-cont {
     padding: 48px;
     background-color: white;
 }
+
 .guest-story-timeline-all {
     width: 60%;
     margin: auto;
 }
+
 .guest-story-timeline-single {
     display: flex;
     justify-content: center;
     margin-bottom: 48px;
 }
-.guest-story-timeline-single > div:nth-child(2) {
+
+.guest-story-timeline-single>div:nth-child(2) {
     width: 358px;
     padding-left: 30px;
 }
-.guest-story-timeline-single > div:nth-child(1) {
+
+.guest-story-timeline-single>div:nth-child(1) {
     width: 358px;
     height: 314px;
 }
-.guest-story-timeline-single > div:nth-child(1) {
+
+.guest-story-timeline-single>div:nth-child(1) {
     padding-right: 30px;
     position: relative;
 }
-.guest-story-timeline-single > div:nth-child(1) > img {
+
+.guest-story-timeline-single>div:nth-child(1)>img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.guest-story-timeline-single > div:nth-child(1)::after {
+
+.guest-story-timeline-single>div:nth-child(1)::after {
     content: "";
     position: absolute;
     width: 0.569208px;
@@ -561,7 +576,8 @@ export default {
     right: 0;
     margin-left: -1px;
 }
-.guest-story-timeline-single > div:nth-child(2) > h3 {
+
+.guest-story-timeline-single>div:nth-child(2)>h3 {
     font-family: "Cinzel";
     font-style: normal;
     font-weight: 700;
@@ -571,7 +587,8 @@ export default {
     transform: rotate(-0.85deg);
     margin-bottom: 7px;
 }
-.guest-story-timeline-single > div:nth-child(2) > h5 {
+
+.guest-story-timeline-single>div:nth-child(2)>h5 {
     font-family: "Stalemate";
     font-style: normal;
     font-weight: 400;
@@ -580,7 +597,8 @@ export default {
     color: #000000;
     margin-bottom: 10px;
 }
-.guest-story-timeline-single > div:nth-child(2) > p {
+
+.guest-story-timeline-single>div:nth-child(2)>p {
     font-family: "Segoe UI";
     font-style: normal;
     font-weight: 350;
@@ -588,135 +606,166 @@ export default {
     line-height: 22px;
     color: #808080;
 }
+
 .reverse {
     flex-direction: row-reverse;
 }
-.guest-story-timeline-single.reverse > div:nth-child(1)::after {
+
+.guest-story-timeline-single.reverse>div:nth-child(1)::after {
     left: 0 !important;
     margin-left: -1px !important;
 }
-.guest-story-timeline-single.reverse > div:nth-child(1) {
+
+.guest-story-timeline-single.reverse>div:nth-child(1) {
     padding-left: 30px;
     padding-right: 0 !important;
 }
-.guest-story-timeline-single.reverse > div:nth-child(2) {
+
+.guest-story-timeline-single.reverse>div:nth-child(2) {
     padding-left: 0 !important;
     padding-right: 30px;
 }
+
 .guest-story-gallery {
     padding: 42px;
 }
+
 #image-single-cont {
     width: 100%;
     display: flex;
     justify-content: center;
 }
+
 .image-single {
     width: 179px !important;
     height: 199px !important;
 }
-.splide__slide.enlarge > .image-single {
+
+.splide__slide.enlarge>.image-single {
     width: 209px !important;
     height: 239px !important;
 }
-.image-single > img {
+
+.image-single>img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
 @media screen and (max-width: 1200px) {
     .guest-story-cont {
         padding-top: 55% !important;
     }
+
     .guest-story-timeline-all {
         width: 80%;
     }
 }
+
 @media screen and (max-width: 968px) {
     .guest-story-timeline-all {
         width: 100%;
     }
 }
+
 @media screen and (max-width: 768px) {
     .guest-story-main-img {
         top: 18% !important;
     }
+
     .guest-story-sec-content {
         width: 100% !important;
     }
+
     .guest-story-timer-cont {
         flex-wrap: wrap;
         justify-content: center;
         padding: 22px 60px;
     }
-    .guest-story-timer-cont > div:nth-child(2) {
+
+    .guest-story-timer-cont>div:nth-child(2) {
         width: 100%;
     }
+
     .guest-story-timer {
         justify-content: center;
     }
+
     .guest-story-timeline-single {
         flex-wrap: wrap;
         text-align: center;
     }
-    .guest-story-timeline-single > div:nth-child(2) {
+
+    .guest-story-timeline-single>div:nth-child(2) {
         width: 100%;
     }
-    .guest-story-timeline-single > div:nth-child(1)::after {
+
+    .guest-story-timeline-single>div:nth-child(1)::after {
         width: 0 !important;
         position: unset !important;
     }
-    .guest-story-timeline-single > div:nth-child(1) {
+
+    .guest-story-timeline-single>div:nth-child(1) {
         width: 50% !important;
         margin: auto;
         padding-right: 0 !important;
         height: unset !important;
     }
-    .guest-story-timeline-single > div:nth-child(2) {
+
+    .guest-story-timeline-single>div:nth-child(2) {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 }
+
 @media screen and (max-width: 576px) {
-    .guest-story-timeline-single > div:nth-child(1) {
+    .guest-story-timeline-single>div:nth-child(1) {
         width: 80% !important;
     }
-    .guest-story-main-img > div:nth-child(2) > span {
+
+    .guest-story-main-img>div:nth-child(2)>span {
         font-weight: 400;
         font-size: 18.2232px;
         line-height: 24px;
     }
-    .guest-story-main-img > div:nth-child(2) > span:nth-child(2) {
+
+    .guest-story-main-img>div:nth-child(2)>span:nth-child(2) {
         font-weight: 400;
         font-size: 33.1331px;
         line-height: 49px;
     }
-    .guest-story-main-img > img {
+
+    .guest-story-main-img>img {
         width: 30px;
         height: 30px;
     }
-    .guest-story-main-img > div:nth-child(3) > span {
+
+    .guest-story-main-img>div:nth-child(3)>span {
         font-weight: 500;
         font-size: 10px;
         line-height: 15px;
     }
-    .guest-story-main-img > div:nth-child(3) > img {
+
+    .guest-story-main-img>div:nth-child(3)>img {
         width: 70px;
         height: 70px;
     }
+
     .guest-story-sec-content {
         flex-wrap: wrap;
         row-gap: 15px;
     }
+
     .guest-story-sec-content-single {
         width: 100%;
     }
 }
 </style>
 <style>
-.splide__track--nav > .splide__list > .splide__slide.is-active {
+.splide__track--nav>.splide__list>.splide__slide.is-active {
     border: none !important;
 }
+
 .splide__list {
     align-items: baseline;
 }

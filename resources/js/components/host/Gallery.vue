@@ -2,7 +2,7 @@
     <div>
         <div class="gallery-all-cont wed-host-gallery container-md">
             <div>
-                <div
+                <!--<div
                     @click="
                         activeGallery = 'Pictures';
                         clickedAlbum = [];
@@ -12,17 +12,17 @@
                     }"
                 >
                     Pictures
-                </div>
+                </div>-->
                 <div
                     @click="
-                        activeGallery = 'Albums';
+                        activeGallery = 'Memories';
                         clickedAlbum = [];
                     "
                     :class="{
-                        'wed-host-gallery-active': activeGallery == 'Albums',
+                        'wed-host-gallery-active': activeGallery == 'Memories',
                     }"
                 >
-                    Albums
+                    Picture
                 </div>
                 <div
                     @click="
@@ -35,6 +35,18 @@
                 >
                     Videos
                 </div>
+                <div
+                    @click="
+                        activeGallery = 'Albums';
+                        clickedAlbum = [];
+                    "
+                    :class="{
+                        'wed-host-gallery-active': activeGallery == 'Albums',
+                    }"
+                >
+                    Albums
+                </div>
+                
             </div>
             <div class="wed-host-gallery-items">
                 <div v-if="activeGallery == 'Pictures'">
@@ -43,10 +55,59 @@
                         class="wed-image-form gallery_upload_form"
                     >
                         <div class="p-3">
-                            <div class="row p-2">
-                                <label for="album" class="form-label">
-                                    Album Name</label
+                            <div class="row mb-2 p-2">
+                                <label for="image" class="form-label">Add Pictures</label>
+                                <input
+                                    type="file"
+                                    name="galleryPicture[]"
+                                    class="form-control form-control-sm"
+                                    multiple
+                                    @change="uploadImages($event)"
+                                    accept="image/*"
+                                />
+                                <span
+                                    v-if="errorsSubmit && errorsSubmit.galleryPicture"
+                                    class="errMsg"
+                                >{{ errorsSubmit.galleryPicture[0] }}</span>
+                                <div>{{ uploadMultiMessage }}</div>
+                            </div>
+                            <div class="row p-3">
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-primary"
+                                    :disabled="disablePictures"
                                 >
+                                    Upload Pictures
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="pictures-grid">
+                        <div
+                            v-for="(picture, index) in allPictures"
+                            :key="index"
+                            class="img-cont"
+                        >
+                            <div class="delete-btn">
+                                <button @click="deletePicture(picture.id)" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <img
+                                :src="'/files/' + invitations.id + '/' + picture.imageName"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div v-if="activeGallery == 'Albums'">
+                    <form
+                        @submit.prevent="sendPictures($event)"
+                        class="wed-image-form gallery_upload_form"
+                    >
+                        <div class="p-3">
+                            <div class="row p-2">
+                                <label for="album" class="form-label">Album Name</label>
                                 <input
                                     type="text"
                                     name="album"
@@ -56,25 +117,32 @@
                                 />
                             </div>
                             <div class="row mb-2 p-2">
-                                <label for="image" class="form-label"
-                                    >Add Images</label
-                                >
+                                <label for="image" class="form-label">Add Images</label>
                                 <input
                                     type="file"
                                     name="galleryImage[]"
                                     class="form-control form-control-sm"
-                                    id=""
                                     multiple
                                     @change="uploadImages($event)"
+                                    accept="image/*"
                                 />
-                                <span
-                                    v-if="
-                                        errorsSubmit &&
-                                        errorsSubmit.galleryImage
-                                    "
-                                    class="errMsg"
-                                    >{{ errorsSubmit.galleryImage[0] }}</span
-                                >
+                                <span v-if="errorsSubmit && errorsSubmit.galleryImage" class="errMsg">
+                                    {{ errorsSubmit.galleryImage[0] }}
+                                </span>
+                            </div>
+                            <div class="row mb-2 p-2">
+                                <label for="video" class="form-label">Add Videos</label>
+                                <input
+                                    type="file"
+                                    name="galleryVideo[]"
+                                    class="form-control form-control-sm"
+                                    multiple
+                                    @change="uploadImages($event)"
+                                    accept="video/*"
+                                />
+                                <span v-if="errorsSubmit && errorsSubmit.galleryVideo" class="errMsg">
+                                    {{ errorsSubmit.galleryVideo[0] }}
+                                </span>
                                 <div>{{ uploadMultiMessage }}</div>
                             </div>
                             <div class="row p-3">
@@ -88,55 +156,53 @@
                             </div>
                         </div>
                     </form>
-                    <div
-                        v-for="(item, index) in allGalleries"
-                        :key="index"
-                        class="img-cont"
-                    >
-                        <img
-                            :src="
-                                '/files/' +
-                                invitations.id +
-                                '/' +
-                                item.imageName
-                            "
-                            alt=""
-                        />
-                    </div>
                 </div>
-                <div
-                    id="all-albums"
-                    v-if="activeGallery == 'Albums' && clickedAlbum.length == 0"
-                >
+                <div id="all-albums" v-if="activeGallery == 'Albums' && clickedAlbum.length == 0">
                     <div
                         v-for="(item, index) in allAlbums"
                         :key="index"
                         @click="clickedAlbum = item.images"
                         class="album-cont"
                     >
+                        <div class="delete-btn">
+                            <button @click.stop="deleteAlbum(item.id)" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                         <span>
                             {{ item.images.length }}
                             <img src="/assets/guestInvi/bi_image-fill.svg" />
                         </span>
-                        <img src="/assets/guestInvi/Frame-5602-1.png" alt="" />
-                        <span> {{ item.name }} </span>
+                        <img v-if="item.images.length && item.images[0].type === 'image'" 
+                             :src="'/files/' + invitations.id + '/' + item.images[0].imageName" 
+                             alt="Album Cover" />
+                        <video v-if="item.images.length && item.images[0].type === 'video'"
+                               :src="'/videos/' + invitations.id + '/' + item.images[0].imageName"
+                               class="album-cover-video"></video>
+                        <span>{{ item.name }}</span>
                     </div>
                 </div>
-                <div v-else class="album-pics">
-                    <div
-                        v-for="single in clickedAlbum"
-                        :key="single.imageName"
-                        class="img-cont"
-                    >
-                        <img
-                            :src="
-                                '/files/' +
-                                invitations.id +
-                                '/' +
-                                single.imageName
-                            "
-                            alt=""
-                        />
+                <div v-if="activeGallery == 'Albums' && clickedAlbum.length">
+                    <div class="album-header mb-3">
+                        <button @click="clickedAlbum = []" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Albums
+                        </button>
+                    </div>
+                    <div class="album-grid">
+                        <div v-for="item in clickedAlbum" :key="item.id" class="img-cont">
+                            <div class="delete-btn">
+                                <button @click="deleteAlbumItem(item.id)" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <img v-if="item.type === 'image'"
+                                 :src="'/files/' + invitations.id + '/' + item.imageName"
+                                 alt="Album Image" />
+                            <video v-if="item.type === 'video'"
+                                   :src="'/videos/' + invitations.id + '/' + item.imageName"
+                                   controls
+                                   class="album-video"></video>
+                        </div>
                     </div>
                 </div>
                 <div v-if="activeGallery == 'Videos'">
@@ -146,53 +212,94 @@
                     >
                         <div class="p-3">
                             <div class="row mb-2 p-2">
-                                <label for="image" class="form-label"
-                                    >Add Video</label
-                                >
+                                <label for="video" class="form-label">Add Videos</label>
                                 <input
                                     type="file"
-                                    name="galleryImage[]"
+                                    name="galleryVideo[]"
                                     class="form-control form-control-sm"
-                                    id=""
                                     multiple
                                     @change="uploadImages($event)"
                                 />
                                 <span
-                                    v-if="
-                                        errorsSubmit &&
-                                        errorsSubmit.galleryVideo
-                                    "
+                                    v-if="errorsSubmit && errorsSubmit.galleryVideo"
                                     class="errMsg"
-                                    >{{ errorsSubmit.galleryVideo[0] }}</span
-                                >
+                                >{{ errorsSubmit.galleryVideo[0] }}</span>
                                 <div>{{ uploadMultiMessage }}</div>
                             </div>
                             <div class="row p-3">
                                 <button
+                                    type="submit"
                                     :disabled="disablePictures"
                                     class="btn btn-sm btn-primary"
                                 >
-                                    Upload Video
+                                    Upload Videos
                                 </button>
                             </div>
                         </div>
                     </form>
-                    <div
-                        v-for="(item, index) in allVideos"
-                        :key="index"
-                        class="img-cont"
+                    <div v-for="(video, index) in allVideos" :key="index" class="video-cont">
+                        <div class="delete-btn">
+                            <button @click="deleteVideo(video.id)" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <video 
+                            :src="'/videos/' + invitations.id + '/' + video.name"
+                            controls
+                            class="video-player"
+                        ></video>
+                        <div class="video-name">{{ video.name }}</div>
+                    </div>
+                </div>
+                <div v-if="activeGallery == 'Memories'">
+                    <form
+                        @submit.prevent="sendPictures($event)"
+                        class="wed-image-form gallery_upload_form"
                     >
-                        <video controls>
-                            <source
-                                :src="
-                                    '/videos/' +
-                                    invitations.id +
-                                    '/' +
-                                    item.name
-                                "
+                        <div class="p-3">
+                            <div class="row mb-2 p-2">
+                                <label for="memory" class="form-label">Add Memories</label>
+                                <input
+                                    type="file"
+                                    name="galleryMemory[]"
+                                    class="form-control form-control-sm"
+                                    multiple
+                                    @change="uploadImages($event)"
+                                    accept="image/*"
+                                />
+                                <span
+                                    v-if="errorsSubmit && errorsSubmit.galleryMemory"
+                                    class="errMsg"
+                                >{{ errorsSubmit.galleryMemory[0] }}</span>
+                                <div>{{ uploadMultiMessage }}</div>
+                            </div>
+                            <div class="row p-3">
+                                <button
+                                    type="submit"
+                                    class="btn btn-sm btn-primary"
+                                    :disabled="disablePictures"
+                                >
+                                    Upload Memories
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="pictures-grid">
+                        <div
+                            v-for="(memory, index) in allMemories"
+                            :key="index"
+                            class="img-cont"
+                        >
+                            <div class="delete-btn">
+                                <button @click="deleteMemory(memory.id)" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <img
+                                :src="'/uploads/memories/' + memory.imageName"
+                                alt="Memory"
                             />
-                            Your browser does not support the video tag.
-                        </video>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -200,6 +307,8 @@
         <flashMessage :message="message"></flashMessage>
     </div>
 </template>
+
+
 
 <script>
 import flashMessage from "../FlashMessage.vue";
@@ -212,6 +321,10 @@ export default {
     data() {
         return {
             activeGallery: "Pictures",
+            allPictures: this.galleries.filter(g => !g.is_picture || g.picture_type === 'gallery').concat(
+                this.albums.flatMap(album => album.images)
+            ),
+            allMemories: [],
             clickedAlbum: [],
             message: null,
             uploadMultiImage: [],
@@ -221,81 +334,255 @@ export default {
             allGalleries: this.galleries,
             allVideos: this.videos,
             disablePictures: false,
-            errorsSubmit: null,
+            errorsSubmit: {},
+            galleryMemory: [],
         };
     },
     methods: {
         uploadImages(e) {
-            this.uploadMultiImage = e.target.files;
-            this.uploadMultiMessage =
-                this.uploadMultiImage.length + " Files Upoladed!!";
+            if (this.activeGallery === "Memories") {
+                this.galleryMemory = e.target.files;
+                this.uploadMultiMessage = this.galleryMemory.length + " Files Selected!";
+            } else {
+                this.uploadMultiImage = e.target.files;
+                this.uploadMultiMessage = this.uploadMultiImage.length + " Files Selected!";
+            }
         },
         sendPictures(e) {
             let _this = this;
             _this.disablePictures = true;
-            _this.errorsSubmit = null;
+            _this.errorsSubmit = {};
             let formData = new FormData();
-            let link = null;
-            if (_this.activeGallery == "Pictures") {
-                formData.append("album", _this.albumName);
+            
+            if (_this.activeGallery == "Memories") {
+                if (_this.galleryMemory.length > 0) {
+                    Array.from(_this.galleryMemory).forEach((file) => {
+                        formData.append('galleryMemory[]', file);
+                    });
+                    axios.post(route('host.memoryUpload', _this.host), formData)
+                        .then((response) => {
+                            if (response.data.success) {
+                                _this.allMemories = response.data.memories;
+                                _this.galleryMemory = [];
+                                _this.uploadMultiMessage = null;
+                                _this.$toastr.success(response.data.message || 'Memories uploaded successfully');
+                            } else {
+                                _this.$toastr.error(response.data.message || 'Failed to upload memories');
+                            }
+                        })
+                        .catch((error) => {
+                            _this.disablePictures = false;
+                            console.error('Upload error:', error.response?.data);
+                            
+                            if (error.response?.data?.errors) {
+                                _this.errorsSubmit = {
+                                    galleryMemory: Object.values(error.response.data.errors)[0]
+                                };
+                                _this.$toastr.error('Please check the form for errors');
+                            } else {
+                                _this.$toastr.error(error.response?.data?.message || 'An error occurred while uploading memories');
+                            }
+                        })
+                        .finally(() => {
+                            _this.disablePictures = false;
+                        });
+                }
+            }
+            else if (this.activeGallery == "Albums") {
+                formData.append("album", this.albumName);
                 let images = null;
-                if (_this.uploadMultiImage.length > 0) {
-                    images = [..._this.uploadMultiImage];
+                if (this.uploadMultiImage.length > 0) {
+                    images = [...this.uploadMultiImage];
                     images.forEach(function (item, index) {
                         formData.append("galleryImage[" + index + "]", item);
                     });
                 }
-                link = route("addAlbum", _this.host);
+                axios.post(route("addAlbum", this.host), formData)
+                    .then((response) => {
+                        this.allAlbums = response.data[0];
+                        this.allGalleries = response.data[1];
+                        this.uploadMultiImage = [];
+                        this.uploadMultiMessage = null;
+                        this.message = "Album created successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        this.disablePictures = false;
+                        if (error.response?.data?.errors) {
+                            this.errorsSubmit = {
+                                galleryImage: Object.values(error.response.data.errors)[0]
+                            };
+                            this.$toastr.error('Please check the form for errors');
+                        } else {
+                            this.$toastr.error(error.response?.data?.message || 'An error occurred while creating album');
+                        }
+                    });
             }
-            if (_this.activeGallery == "Videos") {
+            else if (this.activeGallery == "Videos") {
                 let images = null;
-                if (_this.uploadMultiImage.length > 0) {
-                    images = [..._this.uploadMultiImage];
+                if (this.uploadMultiImage.length > 0) {
+                    images = [...this.uploadMultiImage];
                     images.forEach(function (item, index) {
                         formData.append("galleryVideo[" + index + "]", item);
                     });
                 }
-                link = route("hostvideoUpload", _this.host);
+                axios.post(route("hostvideoUpload", this.host), formData)
+                    .then((response) => {
+                        this.allVideos = response.data[2];
+                        this.uploadMultiImage = [];
+                        this.uploadMultiMessage = null;
+                        this.message = "Videos uploaded successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        this.disablePictures = false;
+                        if (error.response?.data?.errors) {
+                            this.errorsSubmit = {
+                                galleryVideo: Object.values(error.response.data.errors)[0]
+                            };
+                            this.$toastr.error('Please check the form for errors');
+                        } else {
+                            this.$toastr.error(error.response?.data?.message || 'An error occurred while uploading videos');
+                        }
+                    });
             }
-
-            let meth = "POST";
-
-            axios({
-                method: meth,
-                url: link,
-                data: formData,
-                headers: { "content-type": "multipart/form-data" },
-            })
-                .then((response) => {
-                    _this.allAlbums = response.data[0];
-                    _this.allGalleries = response.data[1];
-                    _this.allVideos = response.data[2];
-                    _this.message = "Uploaded!!!";
-                    _this.uploadMultiMessage = null;
-                    _this.uploadMultiImage = [];
-                    _this.disablePictures = false;
-                    setTimeout(function () {
-                        _this.message = null;
-                    }, 3000);
-                })
-                .catch((error) => {
-                    _this.disablePictures = false;
-                    if (_this.activeGallery == "Pictures") {
-                        _this.errorsSubmit = {
-                            galleryImage: Object.values(
-                                error.response.data?.errors
-                            )[0],
-                        };
-                    }
-                    if (_this.activeGallery == "Videos") {
-                        _this.errorsSubmit = {
-                            galleryVideo: Object.values(
-                                error.response.data?.errors
-                            )[0],
-                        };
-                    }
-                });
+            else if (this.activeGallery == "Pictures") {
+                let images = null;
+                if (this.uploadMultiImage.length > 0) {
+                    images = [...this.uploadMultiImage];
+                    images.forEach(function (item, index) {
+                        formData.append("galleryPicture[" + index + "]", item);
+                    });
+                }
+                axios.post(route("host.pictureUpload", this.host), formData)
+                    .then((response) => {
+                        this.allPictures = response.data[1];
+                        this.uploadMultiImage = [];
+                        this.uploadMultiMessage = null;
+                        this.message = "Pictures uploaded successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch((error) => {
+                        this.disablePictures = false;
+                        if (error.response?.data?.errors) {
+                            this.errorsSubmit = {
+                                galleryPicture: Object.values(error.response.data.errors)[0]
+                            };
+                            this.$toastr.error('Please check the form for errors');
+                        } else {
+                            this.$toastr.error(error.response?.data?.message || 'An error occurred while uploading pictures');
+                        }
+                    });
+            }
         },
+        deleteImage(id) {
+            if(confirm('Are you sure you want to delete this image?')) {
+                axios.delete(route('hostgallery.destroy', [this.host, id]))
+                    .then(response => {
+                        this.allGalleries = this.allGalleries.filter(item => item.id !== id);
+                        this.message = "Image deleted successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        this.message = "Error deleting image";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    });
+            }
+        },
+        deleteAlbum(id) {
+            if(confirm('Are you sure you want to delete this album?')) {
+                axios.delete(route('deleteAlbum', [this.host, id]))
+                    .then(response => {
+                        this.allAlbums = this.allAlbums.filter(item => item.id !== id);
+                        this.message = "Album deleted successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        this.message = "Error deleting album";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    });
+            }
+        },
+        deleteVideo(videoId) {
+            if (confirm("Are you sure you want to delete this video?")) {
+                axios
+                    .delete(route("host.deleteVideo", [this.host, videoId]))
+                    .then(response => {
+                        this.allVideos = this.allVideos.filter(video => video.id !== videoId);
+                        this.message = "Video deleted successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.error('Error deleting video:', error);
+                        this.message = "Error deleting video";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    });
+            }
+        },
+        deletePicture(pictureId) {
+            if (confirm("Are you sure you want to delete this picture?")) {
+                axios
+                    .delete(route("host.deletePicture", [this.host, pictureId]))
+                    .then(response => {
+                        this.allPictures = this.allPictures.filter(picture => picture.id !== pictureId);
+                        this.message = "Picture deleted successfully!";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.error('Error deleting picture:', error);
+                        this.message = "Error deleting picture";
+                        setTimeout(() => {
+                            this.message = null;
+                        }, 3000);
+                    });
+            }
+        },
+        deleteMemory(memoryId) {
+            if (confirm('Are you sure you want to delete this memory?')) {
+                axios.delete(route('host.deleteMemory', [this.host, memoryId]))
+                    .then(() => {
+                        this.allMemories = this.allMemories.filter(memory => memory.id !== memoryId);
+                        this.$toastr.success('Memory deleted successfully');
+                    })
+                    .catch((error) => {
+                        this.$toastr.error('Error deleting memory');
+                        console.error('Delete error:', error);
+                    });
+            }
+        },
+        deleteAlbumItem(itemId) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                axios.delete(route('host.deleteAlbumItem', [this.host, itemId]))
+                    .then(() => {
+                        this.clickedAlbum = this.clickedAlbum.filter(item => item.id !== itemId);
+                        this.$toastr.success('Item deleted successfully');
+                    })
+                    .catch((error) => {
+                        this.$toastr.error('Error deleting item');
+                        console.error('Delete error:', error);
+                    });
+            }
+        }
     },
 };
 </script>
@@ -348,14 +635,16 @@ export default {
     grid-row-gap: 1.5em;
 }
 .img-cont,
-.album-cont {
+.album-cont,
+.video-cont {
     position: relative;
     padding-top: 100%;
     border-radius: 20px;
 }
 .img-cont > img,
 .img-cont > video,
-.album-cont > img {
+.album-cont > img,
+.video-player {
     position: absolute;
     top: 0;
     width: 100%;
@@ -388,21 +677,33 @@ export default {
     line-height: 18px;
     color: #ffffff;
 }
-.album-pics {
-    /* display: none;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-auto-rows: max-content;
-    padding: 1em;
-    grid-column-gap: 1em;
-    grid-row-gap: 1.5em; */
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
 }
-/* .album-pics.active {
-    display: grid !important;
+.delete-btn button {
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    cursor: pointer;
 }
-.album-cont.active {
-    display: none !important;
-} */
-
+.delete-btn button:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+.video-name {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 14px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 /* Gallery all css end */
 .wed-image-form {
     grid-column-start: 1;
@@ -465,5 +766,32 @@ export default {
         grid-column-gap: 1em;
         grid-row-gap: 1.5em;
     }
+}
+.album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.album-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.album-cover-video,
+.album-video {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    z-index: 99;
+}
+
+.album-video {
+    object-fit: contain;
+    background: #000;
 }
 </style>

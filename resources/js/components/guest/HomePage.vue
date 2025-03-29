@@ -1,21 +1,9 @@
 <template>
-    <div>
-        <!-- <navBar @menuchange="changeMenu" :user="user" :link="active"></navBar> -->
-
-        <div  class="container-lg main-cont">
+    <div class="your-class">
+        <div class="container-lg main-cont">
             <div class="guest-dash-left-cont">
                 <div class="guest-left-invi-cont">
                     <h1>Welcome {{ user.name }}..</h1>
-                    <!-- <p
-                        class="wed-btn wed-btn-main"
-                        style="width: max-content; padding: 10px 15px"
-                    >
-                        <a
-                            style="text-decoration: none; color: white"
-                            :href="route('guesttestify', user)"
-                            >Testify</a
-                        >
-                    </p> -->
                     <h2 v-if="screenWidth > 768">You are invited</h2>
                     <div class="guest-left-invi-count">
                         <div style="display: flex;">
@@ -178,15 +166,6 @@
                                     <span>No {{dynamicHeading}}</span>
                                 </div>
                             </div>
-                            <!-- <div
-                                v-if="active == 'pending'"
-                            >
-                                <img src="/assets/guestDash/Frame100.png" alt="" />
-                                <div v-if="active == 'new'">
-                                    <p>No new Invitation</p>
-                                    <p>You have no new invitations.</p>
-                                </div>
-                            </div> -->
                         </div>
                         <div
                             v-show="
@@ -226,21 +205,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- <div
-                            class="all-invi-cont"
-                            v-show="show == 'invitations' || screenWidth >= 576"
-                        >
-                            <cardCommonVue
-                                :class="{ blur: submit }"
-                                v-for="item in newInvites"
-                                :key="item.id"
-                                :invi="item"
-                                :user="user"
-                                @view="inviControl(item, 'view')"
-                                @accept="inviControl(item, 'accept')"
-                                @decline="inviControl(item, 'decline')"
-                            ></cardCommonVue>
-                        </div> -->
                     </div>
                 </div>
                 <div class="width-mod">
@@ -415,14 +379,6 @@
                                             `'` + new Date(date.id) + `'`
                                         "
                                     >
-                                        <!-- <div
-                                            v-for="(
-                                                item, index
-                                            ) in item.description"
-                                            :key="index"
-                                        >
-                                            {{ item }}
-                                        </div> -->
                                         <div>
                                             {{ item.name }}
                                         </div>
@@ -455,13 +411,6 @@
                                 {{ item.invitation.groomName }} weds
                                 {{ item.invitation.brideName }}
                             </div>
-                            <!-- <div class="guest-event-bottom">
-                                <img
-                                    src="/assets/guestDash/dresscode.svg"
-                                    alt=""
-                                />
-                                <span>Dress code - Red colour</span>
-                            </div> -->
                             <div
                                 v-if="item.venues.length > 0"
                                 class="guest-event-bottom"
@@ -489,18 +438,6 @@
             </div>
             <flashMessage :message="message"></flashMessage>
         </div>
-        <!-- <inviteList
-            v-if="
-                active == 'new' ||
-                active == 'accepted' ||
-                active == 'pending' ||
-                active == 'declined'
-            "
-            :user="user"
-            :invitations="showCommonInvites"
-            :active="active"
-            @invitechange="updateInvitation"
-        ></inviteList> -->
         <div v-if="showTestimonialForm == true" class="testi-popup-cont">
             <div class="testi-form-cont">
                 <div class="testi-form-head">
@@ -740,31 +677,10 @@ export default {
                     console.log(error);
                 });
         },
-        // updateInvitation(e, ele, all) {
-        //     if (this.active == "pending") {
-        //         this.pendingInvites = all;
-        //     }
-        //     if (this.active == "accepted") {
-        //         this.acceptedInvites = all;
-        //     }
-        //     if (this.active == "declined") {
-        //         this.rejectedInvites = all;
-        //     }
-        //     if (e == "pending") {
-        //         this.pendingInvites.push(ele);
-        //         return;
-        //     }
-        //     if (e == "accepted") {
-        //         this.acceptedInvites.push(ele);
-        //         return;
-        //     }
-        //     if (e == "declined") {
-        //         this.rejectedInvites.push(ele);
-        //         return;
-        //     }
-        // },
         changeMenu(e) {
             this.active = e;
+            this.show = 'invitations'; // Automatically show the dropdown content
+
             if (e == "all") {
                 this.dynamicInvites = this.newInvites;
                 this.dynamicHeading = 'New Invitations';
@@ -785,7 +701,6 @@ export default {
                 this.dynamicHeading = 'Declined Invitations';
                 return;
             }
-            //window.scrollTo(0, 0);
         },
         setWidth() {
             this.screenWidth = window.screen.width;
@@ -1555,4 +1470,13 @@ line-height: normal;
 .splide__slide.is-active {
     border: none !important;
 }
+.your-class {
+    margin-top: -35px;
+  }
+
+  @media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .your-class {
+      margin-top: -75px;
+    }
+  }
 </style>

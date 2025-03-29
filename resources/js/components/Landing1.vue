@@ -31,23 +31,55 @@
             </div>
             <div class="row sec-one-second-box">
                 <div>
-                    <div class="main_nav_links">
-                        <a href="/wedding-venues">
-                            <img src="/assets/landing_page/Frame_71.png" alt="" />
+                   <div class="main_nav_links">
+                        <!--<a href="/manager-tools">
+                            <img
+                                src="/assets/landing_page/Frame_74.png"
+                                alt=""
+                            />
+                            <p>Manager tools</p>
+                       </a>-->
+                       <a href="links/invitation">
+                        <img src="/assets/manager_tools/invitation.png" alt="">
+                        <p>Invitation</p>
+                       </a>
+                       <a href="host/login">
+                        <img src="/assets/manager_tools/savethedate.png" alt="">
+                        <p>Save the date</p>
+                       </a>
+                       <a href="host/login">
+                        <img src="/assets/manager_tools/ceramonies.png" alt="">
+                        <p>Ceremonies</p>
+                       </a>
+                       <a href="host/login">
+                        <img src="/assets/manager_tools/guestlist.png" alt="">
+                        <p>Guestlist</p>
+                       </a>
+                       <a href="/contact-us">
+                        <img src="/assets/manager_tools/helipline.png" alt="">
+                        <p>Helpline</p>
+                       </a>
+                       <!-- <a href="/wedding-venues">
+                            <img
+                                src="/assets/landing_page/Frame_71.png"
+                                alt=""
+                            />
                             <p>Wedding venues</p>
                         </a>
-                        <a href="/manager-tools">
-                            <img src="/assets/landing_page/Frame_74.png" alt="" />
-                            <p>Manager tools</p>
-                        </a>
-                        <a href="/directory">
-                            <img src="/assets/landing_page/Frame_72.png" alt="" />
-                            <p>Wedding vendors</p>
-                        </a>
                         <a href="/ideas-and-inspiration">
-                            <img src="/assets/landing_page/Frame_73.png" alt="" />
+                            <img
+                                src="/assets/landing_page/Frame_73.png"
+                                alt=""
+                            />
                             <p>Ideas & Inspiration</p>
                         </a>
+                        <a href="/vendor-directory">
+                            <img
+                                src="/assets/landing_page/Frame_72.png"
+                                alt=""
+                            />
+                            <p>Wedding vendors</p>
+                        </a>-->
                     </div>
                 </div>
             </div>

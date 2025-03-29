@@ -26,36 +26,65 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Notifications\Guest\InvitationNotifications;
 use Exception;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
 class GuestController extends Controller
 {
 
     public function inviDisplay($id, $mobile, $slug){
-        //dd(strlen(request()->url()), );
+        \Log::info('View Invitation Request', [
+            'id' => $id,
+            'mobile' => $mobile,
+            'slug' => $slug,
+            'request_url' => request()->url(),
+            'request_params' => request()->all()
+        ]);
+
         try{
-            $inviSlug = Crypt::decrypt(request()->slug);
-            $inviMobile = Crypt::decrypt(request()->num);
+            $inviSlug = Crypt::decrypt($slug);
+            $inviMobile = Crypt::decrypt($mobile);
+            
+            \Log::info('Decrypted values', [
+                'inviSlug' => $inviSlug,
+                'inviMobile' => $inviMobile
+            ]);
         }catch(Exception $e){
+            \Log::error('Decryption failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return redirect()->route('welcome')->with([
                 'message'    => 'Something went wrong!',
             ]);
         }
         $user = User::where('mobile', (int)$inviMobile)->first();
-        $invitation = Invitation::where('id', (int)request()->id)->where('slug', $inviSlug)->first();
+        $invitation = Invitation::where('id', (int)$id)->where('slug', $inviSlug)->first();
+        
+        \Log::info('User and Invitation lookup', [
+            'user_found' => $user ? true : false,
+            'invitation_found' => $invitation ? true : false,
+            'user_id' => $user ? $user->id : null,
+            'invitation_id' => $invitation ? $invitation->id : null
+        ]);
+
         if($user == null || $invitation == null){
             return redirect()->route('welcome')->with([
                 'message'    => 'Not Authorised!',
             ]);
         }else{
            $status = GuestInvitation::where('user_id', $user->id)->where('invitation_id', $invitation->id)->first(); 
-           //dd($invitation, $status);
+           
+           \Log::info('Guest Invitation Status', [
+               'status_found' => $status ? true : false,
+               'invite_status' => $status ? $status->inviteStatus : null
+           ]);
+
             if($status && ($status->inviteStatus == 6 || $status->inviteStatus == 5)){
                 return redirect()->route('login')->with([
                     'message'    => 'Login to view your invitation!',
                 ]);
             }
            $response= $this->invitation($user, $invitation);
-           //dd($abc);
             return $response;
         }
     }

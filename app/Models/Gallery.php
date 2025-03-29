@@ -9,7 +9,13 @@ class Gallery extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['imageName', 'album_id','invitation_id'];
+    protected $fillable = [
+        'imageName', 
+        'album_id',
+        'invitation_id',
+        'is_picture',
+        'picture_type'
+    ];
 
     public function album(){   
         return $this->belongsTo(Album::class);

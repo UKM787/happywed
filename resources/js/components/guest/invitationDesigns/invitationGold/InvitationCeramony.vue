@@ -1,13 +1,13 @@
 <template>
     <div>
         <div
-            v-if="ceramonies.length > 0"
+            v-if="displayCeremonies.length > 0"
             class="container-lg guest-invi-ceramony"
         >
             <!-- <h3>Wedding ceremonies</h3>
             <h2>Accept Invitation to choose Members to the ceremonies</h2> -->
             <div
-                v-for="item in ceramonies"
+                v-for="item in displayCeremonies"
                 :key="item.id"
                 class="cera-peach-single"
                 @click="popupCera = item"
@@ -16,12 +16,12 @@
                     <h1>{{ titleCase(item.name) }}</h1>
                 </div>
                 <div class="img-peach-cont">
-                    <img :src="'/storage/' + item.imageOne" alt="" />
+                    <img :src="'/storage/' + item.imageOne" alt="" v-if="item.imageOne" />
                 </div>
                 <div class="peach-inner-details">
                     <div class="peach-inner-info">
                         <span>{{ titleCase(item.name) }}</span>
-                        <span>
+                        <span v-if="item.startDate">
                             <img
                                 src="/storage/guestInvitation/Peach/calender.svg"
                                 alt=""
@@ -38,14 +38,14 @@
                                 )
                             }}
                             {{
-                                new Date(
+                                item.startTime ? new Date(
                                     "1970-01-01T" + item.startTime + "Z"
                                 ).toLocaleTimeString("en-US", {
                                     timeZone: "UTC",
                                     hour12: true,
                                     hour: "numeric",
                                     minute: "numeric",
-                                })
+                                }) : ''
                             }}
                         </span>
                         <span v-for="e in item.venues" :key="e.name">
@@ -53,14 +53,12 @@
                                 src="/storage/guestInvitation/Peach/location.svg"
                                 alt=""
                             />
-                            {{ e.name }}, {{ e.location.name }},
-                            {{ e.location.state }}
+                            {{ e.name }}{{ e.location?.name ? ', ' + e.location.name : '' }}{{ e.location?.state ? ', ' + e.location.state : '' }}
                         </span>
                     </div>
-                    <div class="peach-inner-dress">
-                        <!-- <h1>Dress Code</h1> -->
+                    <div class="peach-inner-dress" v-if="item.imageTwo || item.imageThree">
                         <div>
-                            <div>
+                            <div v-if="item.imageTwo">
                                 <img
                                     src="/storage/guestInvitation/Peach/female.svg"
                                     alt=""
@@ -70,7 +68,7 @@
                                     alt=""
                                 />
                             </div>
-                            <div>
+                            <div v-if="item.imageThree">
                                 <img
                                     src="/storage/guestInvitation/Peach/male.svg"
                                     alt=""
@@ -112,29 +110,57 @@ export default {
     data() {
         return {
             popupCera: null,
+            localCeremonies: this.ceramonies || []
         };
+    },
+    created() {
+        // Listen for ceremony updates
+        this.$root.$on('ceremonyUpdated', this.updateCeremonies);
+    },
+    beforeDestroy() {
+        // Clean up event listener
+        this.$root.$off('ceremonyUpdated', this.updateCeremonies);
     },
     methods: {
         titleCase(str) {
-            let _this = this;
-            var splitStr = str.toLowerCase().split(" ");
+            if (!str) return '';
+            let splitStr = str.toLowerCase().split(" ");
             for (var i = 0; i < splitStr.length; i++) {
-                // You do not need to check if i is larger than splitStr length, as your for does that for you
-                // Assign it back to the array
-                splitStr[i] =
-                    splitStr[i].charAt(0).toUpperCase() +
-                    splitStr[i].substring(1);
+                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
             }
-            // Directly return the joined string
             return splitStr.join(" ");
         },
+        updateCeremonies(ceremonies) {
+            this.localCeremonies = ceremonies;
+        }
     },
     computed: {
         ceremonyCard() {
-            //return this.popupCera.file;
             return "CardDefault";
         },
+        displayCeremonies() {
+            return this.localCeremonies.map(ceremony => ({
+                ...ceremony,
+                startDate: ceremony.startDate || ceremony.date,
+                startTime: ceremony.startTime || ceremony.time,
+                venues: ceremony.venues || [{
+                    name: ceremony.venueName || ceremony.venue,
+                    location: {
+                        name: ceremony.venueAddress || ceremony.address,
+                        state: ceremony.venueState || ''
+                    }
+                }]
+            }));
+        }
     },
+    watch: {
+        ceramonies: {
+            immediate: true,
+            handler(newVal) {
+                this.localCeremonies = newVal || [];
+            }
+        }
+    }
 };
 </script>
 

@@ -2,7 +2,7 @@
     <div>
         <div class="guest-invi-navbar-cont">
             <div class="container-lg">
-                <div id="nav-slider" class="splide">
+                <!--<div id="nav-slider" class="splide">-->
                     <div
                         class="splide__track"
                         style="background: #461952; border-radius: 27px"
@@ -23,7 +23,7 @@
                                     Home
                                 </a>
                             </li>
-                            <li class="splide__slide">
+                            <li class="splide__slide" style="padding-inline-start: 20px;">
                                 <a
                                     :href="route('hostinvitations.index')"
                                     :class="{ active: active == 'invitation' }"
@@ -38,7 +38,7 @@
                                     Invitation
                                 </a>
                             </li>
-                            <li class="splide__slide">
+                            <li class="splide__slide" style="padding-inline-start: 20px;">
                                 <a
                                     :href="
                                         route(
@@ -88,7 +88,7 @@
                                     Task Management
                                 </a>
                             </li> -->
-                            <li class="splide__slide">
+                            <!--<li class="splide__slide">
                                 <a
                                     :href="route('hostlogistics.index')"
                                     :class="{ active: active == 'logistics' }"
@@ -117,8 +117,8 @@
                                     </span>
                                     Accommodation
                                 </a>
-                            </li>
-                            <li class="splide__slide">
+                            </li>-->
+                            <li class="splide__slide" style="padding-inline-start: 60px;">
                                 <a
                                     :href="route('hostgallery.index')"
                                     :class="{ active: active == 'gallery' }"
@@ -170,7 +170,7 @@
                                 </a> -->
                         </ul>
                     </div>
-                </div>
+                <!--</div>-->
             </div>
         </div>
         <div v-if="active != 'guests'" class="guest-invi-navbar-cont" style="top: unset; bottom: 0">
@@ -341,7 +341,7 @@ export default {
     line-height: 22px;
     text-align: center;
     color: #9a9a9a;
-    padding: 8px 40px;
+    padding: 8px 80px;
     cursor: pointer;
     white-space: nowrap;
     text-decoration: none;
@@ -358,7 +358,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
+    
 }
 .guest-invi-navbar  .active {
     background: #ffffff;

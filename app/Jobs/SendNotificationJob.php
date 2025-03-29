@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Notifications\WhatsAppNotification; // Import WhatsApp Notification
 
 class SendNotificationJob implements ShouldQueue
 {
@@ -22,10 +23,8 @@ class SendNotificationJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
-    public function __construct($guestlist, $invitation,   $notificationClass, $callback)
+    public function __construct($guestlist, $invitation, $notificationClass, $callback)
     {
         $this->guestlist = $guestlist;
         $this->invitation = $invitation;
@@ -35,33 +34,27 @@ class SendNotificationJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {
-        //dd($this->guestlist);
-        $failedEmails = [];
-        foreach ($this->guestlist as $guest) {
-            try {
+        try {
+            foreach ($this->guestlist as $guest) {
                 Notification::send($guest, new $this->notificationClass($this->invitation->host, $this->invitation, 'sent you invitation'));
-                //dd($guest);
-                GuestInvitation::where('user_id', $guest->id)->where('invitation_id', $this->invitation->id)->first()->update(['email'=> 2]);
-                //$guest->invitations[0]->guest_invitation->update(['email', 1]);
-                // $guest->notify(new $this->notificationClass($this->invitation->host, $this->invitation, 'sent you invitation'));
-            } catch (\Exception $e) {
-                //dd($e);
-                $failedEmails[] = $guest->email;
-                //dd($guest, 'fail');
-                GuestInvitation::where('user_id', $guest->id)->where('invitation_id', $this->invitation->id)->first()->update(['email'=> 3]);
-
-                //$guest->invitations[0]->guest_invitation->update(['email', 10]);
+    
+                // ✅ WhatsApp Notification
+                if (!empty($guest->mobile)) {
+                    Notification::send($guest, new WhatsAppNotification($this->invitation));
+                }
+    
+                // ✅ Update DB
+                GuestInvitation::where('user_id', $guest->id)
+                    ->where('invitation_id', $this->invitation->id)
+                    ->first()
+                    ->update(['email' => 2, 'watsapp' => 2]);
             }
-        }
-
-        if (!empty($failedEmails)) {
-            //dd($$failedEmails);
-            //call_user_func($this->callback, $failedEmails);
+        } catch (\Exception $e) {
+            \Log::error("SendNotificationJob Failed: " . $e->getMessage());
         }
     }
+    
 }

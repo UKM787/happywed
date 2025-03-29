@@ -83,7 +83,7 @@
                                     >{{ errorSubmit.category[0] }}</span
                                 >
                             </div>
-                            <div style="min-width: 48%">
+                            <!--<div style="min-width: 48%">
                                 <multiselect
                                     v-model="feilds.city"
                                     placeholder="Select City"
@@ -101,7 +101,7 @@
                                     class="errMsg"
                                     >{{ errorSubmit.city[0] }}</span
                                 >
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div v-if="url == 'host' || url == 'admin'">

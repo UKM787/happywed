@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use NotificationChannels\WebPush\WebPushMessage;
 use NotificationChannels\WebPush\WebPushChannel;
+use Illuminate\Support\Facades\Log;
 
 class InvitationNotifications extends Notification
 {
@@ -97,23 +98,50 @@ class InvitationNotifications extends Notification
         ];
     }
 
-    public function toMSG91Watsapp($notifiable){
-        $invi = Crypt::encrypt($this->invitation->slug);
-        $mob = Crypt::encrypt($notifiable->mobile);
+    public function toMSG91Watsapp($notifiable)
+    {
         return [
-            'template' => 'invitation_template_v0',
-            'data' => [
-                ['type' => 'text', 'text' => $this->invitation->brideName],
-                ['type' => 'text', 'text' => $this->invitation->groomName],
-                ['type' => 'text', 'text' => date("d-m-Y", strtotime($this->invitation->startDate))],
-                ['type' => 'text', 'text' => 'https://happywed.in'],
-                ['type' => 'text', 'text' => 123],
-                ['type' => 'text', 'text' => route('view-invitation', ['id' => $this->invitation->id, 'slug' => $invi, 'num' => $mob])],
+            "integrated_number" => "919360777089", // Do not change this
+            "content_type" => "template",
+            "payload" => [
+                "type" => "template",
+                "template" => [
+                    "name" => "invitation_new",
+                    "language" => [
+                        "code" => "en",
+                        "policy" => "deterministic"
+                    ],
+                    "namespace" => "bc3735fb_a2e9_4e83_8b62_377bca25c09f",
+                    "to_and_components" => [
+                        [
+                            "to" => ["91" . $notifiable->mobile], // Fixed issue here
+                            "components" => [
+                                "body_1" => [
+                                    "type" => "text",
+                                    "value" => $this->invitation->brideName,
+                                ],
+                                "body_2" => [
+                                    "type" => "text",
+                                    "value" => $this->invitation->groomName,
+                                ],
+                                "body_3" => [
+                                    "type" => "text",
+                                    "value" => date("d-m-Y", strtotime($this->invitation->startDate)),
+                                ],
+                                "body_4" => [
+                                    "type" => "text",
+                                    "value" => "https://happywed.in",
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "messaging_product" => "whatsapp"
             ]
         ];
-       
     }
-
+    
+    
     public function toMSG91($notifiable)
     {
         //dd('into msdg91', $notifiable);
@@ -121,8 +149,8 @@ class InvitationNotifications extends Notification
         $invi = Crypt::encrypt($this->invitation->slug);
         $mob = Crypt::encrypt($notifiable->mobile);
         return [ 'data' =>[ "userName" => $notifiable->name,
-           "userEmail" => $notifiable->name,
-           "userPassword" => 123,
+           "UserMobile" => $notifiable->name,
+           "Otp",
            "brideName"=> $this->invitation->brideName,
            "groomName"=> $this->invitation->groomName, "actionLink" => route('view-invitation', ['id' => $this->invitation->id, 'slug' => $invi, 'num' => $mob])], 'template' => 'Invitation_Template_Happywed',
         ];
@@ -135,26 +163,39 @@ class InvitationNotifications extends Notification
 
     public function toMSG91Sms($notifiable)
     {
-        //dd('into msdg91', $notifiable);
-        //return $this->message;
         $invi = Crypt::encrypt($this->invitation->slug);
         $mob = Crypt::encrypt($notifiable->mobile);
+        
+        // URL encode the encrypted values
+        $encodedInvi = urlencode($invi);
+        $encodedMob = urlencode($mob);
+        
+        $actionLink = route('view-invitation', [
+            'id' => $this->invitation->id,
+            'slug' => $encodedInvi,
+            'num' => $encodedMob
+        ]);
+        
+        \Log::info('Generated SMS Link', [
+            'original_invi' => $invi,
+            'encoded_invi' => $encodedInvi,
+            'original_mob' => $mob,
+            'encoded_mob' => $encodedMob,
+            'action_link' => $actionLink
+        ]);
+        
         return [ 
-           "weddingDate" => date("d-m-Y", strtotime($this->invitation->startDate)),
-           "password" => 123,
-           "brideName"=> $this->invitation->brideName,
-           "groomName"=> $this->invitation->groomName, 
-           'flow_id' => '64d48fddd6fc05032c629812',
-           'mobiles' => '91'.$notifiable->mobile,
-           'loginLink' => 'https://happywed.co.in/login',
-           'actionLink' => route('view-invitation', ['id' => $this->invitation->id, 'slug' => $invi, 'num' => $mob]),
-           'short_url' => 1,
-           'sender' => 'LASIEX'];
-        // return [
-        //    "userName" => $notifiable->name,
-        //    "brideName"=> $this->invitation->brideName,
-        //    "groomName"=> $this->invitation->groomName
-        // ];
+            "weddingDate" => date("d-m-Y", strtotime($this->invitation->startDate)),
+            "otp",
+            "brideName"=> $this->invitation->brideName,
+            "groomName"=> $this->invitation->groomName, 
+            'flow_id' => '64d48fddd6fc05032c629812',
+            'mobiles' => '91'.$notifiable->mobile,
+            'loginLink' => 'https://happywed.in/login',
+            'actionLink' => $actionLink,
+            'short_url' => 1,
+            'sender' => 'LASIEX'
+        ];
     }
 
     public function toWebPush($notifiable, $notification)

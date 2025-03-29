@@ -17,13 +17,37 @@ class CheckHostSubscription
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::guard(Auth::getDefaultDriver())->user();
-        // /dd($user);
-        $subCreated = $user->activeSubscription();
-        if($subCreated){
+        // Skip subscription check for subscription-related routes
+        $routeName = $request->route()->getName();
+        $excludedRoutes = [
+            'subscribePage',
+            'subscribeCreateOrder',
+            'subscribeVerifyPayment',
+            'subscribeReccuringPage',
+            'subscribeCreateSubscribe',
+            'cancelSubscription',
+            'subscribeWebhook'
+        ];
+
+        if (in_array($routeName, $excludedRoutes)) {
             return $next($request);
-        }else{
-            return redirect()->route('subscribePage')->with(['status' => 'Success' , 'message'=>'Kindly choose subscription first!']);
         }
+
+        $user = Auth::guard(Auth::getDefaultDriver())->user();
+        
+        if (!$user) {
+            return $next($request);
+        }
+
+        $subCreated = $user->activeSubscription();
+        
+        if ($subCreated) {
+            return $next($request);
+        }
+
+        return redirect()->route('subscribePage')->with([
+            'status' => 'Success',
+            'message' => 'Kindly choose subscription first!'
+        ]);
     }
 }

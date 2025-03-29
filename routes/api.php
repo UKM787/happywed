@@ -4,6 +4,15 @@
 use GoogleMaps\GoogleMaps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Admin\LocationController;
+use App\Http\Controllers\Api\Admin\VenueController as AdminVenueController;
+use App\Http\Controllers\Api\Admin\CeramonyController;
+use App\Http\Controllers\Api\Admin\TaskController;
+use App\Http\Controllers\Api\Admin\VendorController as AdminVendorController;
+use App\Http\Controllers\Api\Admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\Api\Admin\TestimonialController;
+use App\Http\Controllers\Api\Host\InvitationDataController;
+use App\Http\Controllers\Api\Host\CeremonyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,17 +47,18 @@ Route::get('location', function(){
 /* Admin api routes for back panel  */
 Route::group(['namespace' => 'Api\Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::apiResource('/locations', LocationController::class);
-    Route::apiResource('/venues', VenueController::class);
+    Route::apiResource('/venues', AdminVenueController::class);
     Route::apiResource('/ceramonies', CeramonyController::class);
     Route::apiResource('/tasks', TaskController::class);
-    Route::apiResource('/vendors', VendorController::class);
-    Route::apiResource('/articles', ArticleController::class);
-    Route::apiResource('/testimonials',TestimonialController::class);
+    Route::apiResource('/vendors', AdminVendorController::class);
+    Route::apiResource('/articles', AdminArticleController::class);
+    Route::apiResource('/testimonials', TestimonialController::class);
 });
 
 Route::group(['namespace' => 'Api\Host', 'prefix' => 'host', 'as' => 'host.'], function () {
     Route::apiResource('/invitationData', InvitationDataController::class);
 });
+
 
 
 Route::group(['namespace' => 'Api\Vendor', 'prefix' => 'vendor', 'as' => 'vendor.'], function () {

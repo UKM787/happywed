@@ -1,7 +1,7 @@
 <template>
     <div class="guest-invi-navbar-cont">
         <div class="container-lg px-0">
-            <div id="nav-slider" class="splide">
+            <!--<div id="nav-slider" class="splide">-->
                 <div
                     class="splide__track"
                     style="background: #461952; border-radius: 27px"
@@ -87,7 +87,7 @@
                                 Task Management
                             </a>
                         </li> -->
-                        <li class="splide__slide">
+                        <!--<li class="splide__slide">
                             <a
                                 :href="route('hostlogistics.index')"
                                 :class="{ active: active == 'logistics' }"
@@ -116,7 +116,7 @@
                                 </span>
                                 Accommodation
                             </a>
-                        </li>
+                        </li>-->
                         <li class="splide__slide">
                             <a
                                 :href="route('hostgallery.index')"
@@ -169,7 +169,7 @@
                             </a> -->
                     </ul>
                 </div>
-            </div>
+            <!--</div>-->
         </div>
     </div>
 </template>
@@ -267,7 +267,7 @@ export default {
     line-height: 22px;
     text-align: center;
     color: #9a9a9a;
-    padding: 8px 40px;
+    padding: 8px 90px;
     cursor: pointer;
     white-space: nowrap;
     text-decoration: none;

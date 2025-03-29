@@ -28,7 +28,9 @@ class Invitation extends Model
     protected $fillable = [
         'brideName', 'brideMotherName', 'brideFatherName', 'brideEmail', 'brideMobile',
         'groomName', 'groomMotherName', 'groomFatherName', 'groomEmail', 'groomMobile', 'state', 'location_id',
-        'startDate',  'endDate', 'imageOne', 'slug', 'host_id', 'side'
+        'startDate',  'endDate', 'imageOne', 'slug', 'host_id', 'side',
+        'venueName', 'venueAddress', 'venuePincode', 'venueCity', 'venueState', 
+        'venueLandmark', 'venueStreet', 'venueMobile'
     ];
 
     protected $hidden = [

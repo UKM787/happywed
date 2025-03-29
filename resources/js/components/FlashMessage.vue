@@ -50,26 +50,26 @@ export default {
             _this.show = false;
         }, 3000);
     },
-    // created: function () {
-    //     let _this = this;
-    //     setTimeout(function () {
-    //         _this.show = false;
-    //         console.log(_this.show, "created");
-    //     }, 3000);
-    // },
+     created: function () {
+         let _this = this;
+         setTimeout(function () {
+             _this.show = false;
+             console.log(_this.show, "created");
+         }, 3000);
+     },
     computed: {
         alert: function () {
             this.show = true;
             return this.message;
         },
     },
-    // watch: {
-    //     message(newValue) {
-    //         setTimeout(function () {
-    //             this.show = false;
-    //         }, 3000);
-    //     },
-    // },
+    watch: {
+         message(newValue) {
+             setTimeout(function () {
+                 this.show = false;
+             }, 3000);
+         },
+     },
 };
 </script>
 

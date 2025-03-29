@@ -11,8 +11,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class LocationMaster extends Model
 {
     use HasFactory;
+
     protected $table = 'locationmaster';
-    protected $fillable = ['name', 'latitude', 'longitude', 'status', 'priority', 'parent_id', 'icon', 'slug', 'imageOne', 'admin_id'];
+
+    protected $fillable = [
+        'name', 
+        'latitude', 
+        'longitude', 
+        'status', 
+        'priority', 
+        'parent_id', 
+        'icon', 
+        'slug', 
+        'imageOne', 
+        'admin_id'
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -20,7 +33,8 @@ class LocationMaster extends Model
      * @var array
      */
     protected $hidden = [
-        'admin_id', 'slug'
+        'admin_id', 
+        'slug'
     ];
 
     public function getRouteKeyName()
@@ -28,33 +42,39 @@ class LocationMaster extends Model
         return 'slug';
     }
 
+    // Relationship with VenueMaster
     public function venues()
     {
         return $this->hasMany(VenueMaster::class, 'location_id', 'id');
     }
 
+    // Relationship with CategoryMaster
     public function vendors()
     {
         return $this->hasMany(CategoryMaster::class, 'location_id', 'id');
     }
 
+    // Relationship with Host
     public function hosts()
     {
         return $this->hasMany(Host::class, 'location_id', 'id');
     }
 
+    // Relationship with Admin
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'admin_id', 'id');
     }
 
+    // Relationship to get the parent location (State)
     public function state()
     {
         return $this->belongsTo(LocationMaster::class, 'parent_id', 'id');
     }
 
+    // Relationship to get child locations (Cities)
     public function cities()
     {
-        return $this->hasMany(LocationMaster::class, 'parent_id', 'id')->with('states');
+        return $this->hasMany(LocationMaster::class, 'parent_id', 'id')->with('state'); // Fix: changed 'states' to 'state'
     }
 }

@@ -28,17 +28,30 @@
                     <td>{{ $location->longitude}} </td>
                     <td>{{ $location->priority }}</td>
                     <td>{{ $location->status == 0 ? 'Inactive' : 'Active' }}</td>
-                    <td>@if(isset($location->imageOne)) <img src="{{App\Wed\Happy::LOCIMGPATH.$location->imageOne}}" alt="Location Image" style="border-radius:20%" width="48px" height="auto" @else 'no image' @endif></td>
+                    <td>
+                        @if(isset($location->imageOne))
+                            <img src="{{ App\Wed\Happy::LOCIMGPATH . $location->imageOne }}" alt="Location Image" style="border-radius:20%" width="48px" height="auto">
+                        @else
+                            No image
+                        @endif
+                    </td>
                     <td class="d-flex justify-content-center">
-                        <a href="{{ route('adminlocation.show' , $location) }}" class="badge text-success"><span class="material-icons" style="font-size: 1em;">visibility</span></a>
-                        <a href="{{ route('adminlocation.edit', $location) }}" class="badge text-warning"><span class="material-icons" style="font-size: 1em;">edit</span></a>
-                        <form action="{{ route('adminlocation.destroy', $location) }}" method="POST">
+                        <a href="{{ route('adminlocation.show', ['location' => $location->id]) }}" class="badge text-success">
+                            <span class="material-icons" style="font-size: 1em;">visibility</span>
+                        </a>
+                        <a href="{{ route('adminlocation.edit', ['location' => $location->id]) }}" class="badge text-warning">
+                            <span class="material-icons" style="font-size: 1em;">edit</span>
+                        </a>
+                        <form action="{{ route('adminlocation.destroy', ['location' => $location->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class="badge text-danger"><span class="material-icons" style="font-size: 1em;">delete</span></button>
+                            <button class="badge text-danger">
+                                <span class="material-icons" style="font-size: 1em;">delete</span>
+                            </button>
                         </form>
                     </td>
-                    @if($location->cities->isNotEmpty())
+                </tr>
+                @if($location->cities->isNotEmpty())
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">State / City</th>
@@ -58,20 +71,31 @@
                     <td>{{ $city->longitude}} </td>
                     <td>{{ $city->priority }}</td>
                     <td>{{ $city->status == 0 ? 'Inactive' : 'Active' }}</td>
-                    <td>@if(isset($city->imageOne)) <img src="{{App\Wed\Happy::LOCIMGPATH.$city->imageOne}}" alt="Location Image" style="border-radius:20%" width="48px" height="auto" @else 'no image' @endif></td>
+                    <td>
+                        @if(isset($city->imageOne))
+                            <img src="{{ App\Wed\Happy::LOCIMGPATH . $city->imageOne }}" alt="Location Image" style="border-radius:20%" width="48px" height="auto">
+                        @else
+                            No image
+                        @endif
+                    </td>
                     <td class="d-flex justify-content-center">
-                        <a href="{{ route('adminlocation.show', $city) }}" class="badge text-success"><span class="material-icons" style="font-size: 1em;">visibility</span></a>
-                        <a href="{{ route('adminlocation.edit', $city) }}" class="badge text-warning"><span class="material-icons" style="font-size: 1em;">edit</span></a>
-                        <form action="{{ route('adminlocation.destroy', $city ) }}" method="POST">
+                        <a href="{{ route('adminlocation.show', ['location' => $city->id]) }}" class="badge text-success">
+                            <span class="material-icons" style="font-size: 1em;">visibility</span>
+                        </a>
+                        <a href="{{ route('adminlocation.edit', ['location' => $city->id]) }}" class="badge text-warning">
+                            <span class="material-icons" style="font-size: 1em;">edit</span>
+                        </a>
+                        <form action="{{ route('adminlocation.destroy', ['location' => $city->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class="badge text-danger"><span class="material-icons" style="font-size: 1em;">delete</span></button>
+                            <button class="badge text-danger">
+                                <span class="material-icons" style="font-size: 1em;">delete</span>
+                            </button>
                         </form>
                     </td>
                 </tr>
                 @endforeach
                 @endif
-                </tr>
                 @endforeach
             </tbody>
         </table>

@@ -724,7 +724,7 @@
                                                     }"
                                                 >
                                                     <label for="whatsup">
-                                                        Whatsup
+                                                        WhatsApp
                                                         <input
                                                             type="number"
                                                             name="whatsup"
@@ -2582,21 +2582,21 @@
                             <span style="width: 13%">Name</span>
                             <span style="width: 13%">Phone</span>
                             <span style="width: 30%">Invite</span>
-                            <span style="width: 10%; text-align: center"
+                            <!--<span style="width: 10%; text-align: center"
                                 >Accomodation</span
                             >
                             <span style="width: 10%; text-align: center"
                                 >Logistics</span
-                            >
+                            >-->
                             <span style="width: 6%; text-align: center"
                                 >SMS</span
                             >
                             <span style="width: 6%; text-align: center"
                                 >Mail</span
                             >
-                            <span style="width: 6%; text-align: center"
+                            <!--<span style="width: 6%; text-align: center"
                                 >Post</span
-                            >
+                            >-->
                             <span style="width: 6%; text-align: center"
                                 >Watsapp</span
                             >
@@ -2745,7 +2745,7 @@
                                 </label>
                             </div>
                             <h6 class="hide-text">Facilities</h6>
-                            <span
+                            <!--<span
                                 style="width: 10%; justify-content: center"
                                 class="guest-shortlisted-list-checkbox"
                             >
@@ -2780,8 +2780,8 @@
                                         alt=""
                                     />
                                 </label>
-                            </span>
-                            <span
+                            </span>-->
+                            <!--<span
                                 style="width: 10%; justify-content: center"
                                 class="guest-shortlisted-list-checkbox"
                             >
@@ -2814,7 +2814,7 @@
                                         alt=""
                                     />
                                 </label>
-                            </span>
+                            </span>-->
                             <span
                                 style="width: 6%; justify-content: center"
                                 class="guest-shortlisted-list-checkbox"
@@ -2871,7 +2871,7 @@
                                     <span class="checkmark"></span>
                                 </label>
                             </span>
-                            <span
+                            <!--<span
                                 style="width: 6%; justify-content: center"
                                 class="guest-shortlisted-list-checkbox"
                             >
@@ -2896,7 +2896,7 @@
                                         alt=""
                                     />
                                 </label>
-                            </span>
+                            </span>-->
                             <span
                                 style="width: 6%; justify-content: center"
                                 class="guest-shortlisted-list-checkbox"

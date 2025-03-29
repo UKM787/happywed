@@ -10,7 +10,7 @@
                     booking accommodations for your guests, you can easily
                     manage every aspect of your wedding.
                 </p>
-                <!-- <a :href="links.invitations">Create invitation</a> -->
+             <!--<a :href="links.invitations">Create invitation</a> -->
             </div>
             <div class="manager-section-1-images">
                 <div
@@ -29,9 +29,9 @@
             </div>
         </div>
         <div id="section-2" class="container-fluid position-relative">
-            <h2>Managerial tools</h2>
+            <h2>Managerial Tools</h2>
             <h3>
-                Creating moments to last a lifetime.Provide every service
+                Creating moments to last a lifetime. Provide every service
                 related to the function of marriage
             </h3>
             <div>
@@ -45,36 +45,37 @@
                     <p>Save the date</p>
                     <p>Create cuntdown for your special day</p>
                 </a>
-                <a :href="links.story">
+                <!--<a :href="links.story">
                     <img src="/assets/manager_tools/9.png" alt="" />
                     <p>Story</p>
                     <p>Share your timeline love story with us</p>
-                </a>
+                </a>-->
                 <a :href="links.ceramony">
                     <img src="/assets/manager_tools/5.png" alt="" />
                     <p>Ceremonies</p>
                     <p>Organise your ceremony dates</p>
-                </a>
-                <a :href="links.accomodation">
-                    <img src="/assets/manager_tools/6.png" alt="" />
-                    <p>Accomodation</p>
-                    <p>Book hotel rooms for your guests</p>
                 </a>
                 <a :href="links.guestlist">
                     <img src="/assets/manager_tools/2.png" alt="" />
                     <p>Guestlist</p>
                     <p>Upload your wedding guestlist</p>
                 </a>
-                <a :href="links.logistics">
-                    <img src="/assets/manager_tools/7.png" alt="" />
-                    <p>Logistics</p>
-                    <p>Book logistics to make it simple</p>
-                </a>
-                <a>
+                <!--<a>
                     <img src="/assets/manager_tools/3.png" alt="" />
                     <p>Tasklist</p>
                     <p>Create your own to-do list</p>
-                </a>
+                </a>-->
+                <!--<a :href="links.accomodation">
+                    <img src="/assets/manager_tools/6.png" alt="" />
+                    <p>Accomodation</p>
+                    <p>Book hotel rooms for your guests</p>
+                </a>-->
+                <!--<a :href="links.logistics">
+                    <img src="/assets/manager_tools/7.png" alt="" />
+                    <p>Logistics</p>
+                    <p>Book logistics to make it simple</p>
+                </a>-->
+               
             </div>
         </div>
         <div id="section-3" class="container-fluid position-relative">
@@ -112,12 +113,12 @@
                 </div>
             </div>
         </div>
-        <div id="section-3A" class="container-fluid position-relative">
-            <!-- <h2>Design Your Wedding Invitation</h2>
-            <h3>
+        <!--<div id="section-3" class="container-fluid position-relative">
+            
+            <!--<h3>
                 Design beautiful and customized wedding invitations that
                 perfectly match the theme of their special day.
-            </h3> -->
+            </h3> 
             <div class="container-lg">
                 <div class="row">
                     <div
@@ -129,11 +130,8 @@
                         "
                     >
                         <div class="section-3-content">
-                            <!-- <h3>GET MORE DONE</h3> -->
-                            <h1 style="text-align: left">
-                                Make a personalized countdown for your wedding
-                                day.
-                            </h1>
+                           <h3>Make a personalized countdown for your wedding day.</h3> 
+                            
                             <p style="text-align: left">
                                 Save the date for your wedding celebration!
                                 We're excited to announce that we're tying the
@@ -141,7 +139,7 @@
                                 special day. Let's start the countdown for your
                                 wedding day.
                             </p>
-                            <!-- <a :href="links.invitations">Create invitation</a> -->
+                           <a :href="links.invitations">Create invitation</a> 
                         </div>
                     </div>
                     <div
@@ -153,15 +151,50 @@
                         "
                     >
                         <img
-                            style="width: 100%; max-width: 450px"
-                            src="/assets/manager_tools/Group_1114.svg"
+                            style="width: 100%; max-width: 450px;border-top-right-radius: 60px;"
+                            src="/assets/manager_tools/countdown.png"
                             alt=""
                         />
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="section-4" class="container-fluid position-relative">
+        </div>-->
+        <div id="section-5" class="container-fluid position-relative">
+           
+           <div class="container-lg">
+               <div class="row">
+                   
+                   <div
+                       class="col-sm-6"
+                       style="
+                           display: flex;
+                           flex-direction: column;
+                           justify-content: center;
+                       "
+                   >
+                   <h1> Make a personalized countdown for your wedding day.</h1>
+                      
+                       <p>
+                        Save the date for your wedding celebration!
+                                We're excited to announce that we're tying the
+                                knot, and we'd love for you to be a part of our
+                                special day. Let's start the countdown for your
+                                wedding day.
+                       </p>
+                       <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                   </div>
+                   <div class="col-sm-6">
+                       <img
+                           style="width: 100% ;border-top-right-radius: 60px;"
+                           src="/assets/manager_tools/countdown.png" 
+                           alt=""
+                       />
+                       <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                   </div>
+               </div>
+           </div>
+       </div>
+       <!-- <div id="section-4" class="container-fluid position-relative">
             <h2>Our Story</h2>
             <h3>
                 Share your love story with Happywed and inspire others. From the
@@ -188,18 +221,45 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div id="section-5" class="container-fluid position-relative">
+           
+           <div class="container-lg">
+               <div class="row">
+                   <div class="col-sm-6">
+                       <img
+                           style="width: 100% ;border-top-left-radius: 60px;"
+                           src="/assets/manager_tools/ourstory.png" 
+                           alt=""
+                       />
+                       <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                   </div>
+                   <div
+                       class="col-sm-6"
+                       style="
+                           display: flex;
+                           flex-direction: column;
+                           justify-content: center;
+                       "
+                   >
+                   <h1> Our Story </h1>
+                      
+                       <p>
+                        Share your love story with Happywed and inspire others. From the
+                first meeting to the wedding day, tell us how you fell in love
+                and planned your dream celebration. Start creating your own love
+                story today with Happywed.
+                       </p>
+                       <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                   </div>
+               </div>
+           </div>
+       </div>
+        <div id="section-5" class="container-fluid position-relative">
+           
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <img
-                            style="width: 100%"
-                            src="/assets/manager_tools/sec-5img.png"
-                            alt=""
-                        />
-                        <!-- <a :href="links.invitations">Create ceremonies</a> -->
-                    </div>
+                    
                     <div
                         class="col-sm-6"
                         style="
@@ -208,10 +268,9 @@
                             justify-content: center;
                         "
                     >
-                        <h1 style="text-align: right">
-                            Create and Manage your wedding ceremonies
-                        </h1>
-                        <p style="text-align: right">
+                    <h1> Create and Manage your wedding ceremonies </h1>
+                       
+                        <p>
                             You can create your wedding ceremonies by using our
                             customizable templates that suit your preferences
                             and style. This can include selecting the right
@@ -220,6 +279,14 @@
                             exchange with their partner which makes to
                             ceremonies days rememberable.
                         </p>
+                        <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                    </div>
+                    <div class="col-sm-6">
+                        <img
+                            style="width: 100%"
+                            src="/assets/manager_tools/sec-5img.png"
+                            alt=""
+                        />
                         <!-- <a :href="links.invitations">Create ceremonies</a> -->
                     </div>
                 </div>
@@ -250,29 +317,46 @@
                 />
             </div>
         </div> -->
-        <div id="section-3" class="container-fluid position-relative">
-            <h2>Upload your wedding guestlist</h2>
-            <h3>
-                Keep your guests' information and RSVPs organized in one place
+        <div id="section-5" class="container-fluid position-relative">
+           
+           <div class="container-lg">
+               <div class="row">
+                   
+                  
+                   <div class="col-sm-6">
+                       <img
+                           style="width: 100%"
+                           src="/assets/manager_tools/Frame5691.png"
+                           alt=""
+                       />
+                       <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                   </div>
+                   <div
+                       class="col-sm-6"
+                       style="
+                           display: flex;
+                           flex-direction: column;
+                           justify-content: center;
+                       "
+                   >
+                   <h1> Upload your wedding guestlist </h1>
+                      
+                       <p>
+                        Keep your guests' information and RSVPs organized in one place
                 with Happywed Guest Book. Create Your Perfect Guestlist for
                 [xyz] and [abc]'s Wedding with Happywed
-            </h3>
-            <div class="container-lg">
-                <div class="row" style="justify-content: center">
-                    <img
-                        style="max-width: 684px"
-                        src="/assets/manager_tools/Frame5691.png"
-                        alt=""
-                    />
-                </div>
-            </div>
-        </div>
-        <div id="section-3" class="container-fluid position-relative">
+                       </p>
+                       <!-- <a :href="links.invitations">Create ceremonies</a> -->
+                   </div>
+               </div>
+           </div>
+       </div>
+        <!--<div id="section-3" class="container-fluid position-relative">
             <div class="container-lg">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="section-3-content">
-                            <!-- <h3>GET MORE DONE</h3> -->
+                           <h3>GET MORE DONE</h3> 
                             <h1 style="text-align: left">
                                 Book Hotels for your guests.
                             </h1>
@@ -284,7 +368,7 @@
                                 and ensures your guests have a comfortable and
                                 enjoyable experience.
                             </p>
-                            <!-- <a :href="links.invitations">Create invitation</a> -->
+                         <a :href="links.invitations">Create invitation</a>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -296,24 +380,18 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div
+        </div>-->
+      <!--  <div
             id="section-3"
             class="container-fluid position-relative"
             style="margin: 30px 0"
         >
             <div class="container-lg">
                 <div class="row" id="rev">
-                    <div class="col-sm-6">
-                        <img
-                            style="width: 100%"
-                            src="/assets/manager_tools/sec10img.png"
-                            alt=""
-                        />
-                    </div>
+                    
                     <div class="col-sm-6">
                         <div class="section-3-content">
-                            <!-- <h3>GET MORE DONE</h3> -->
+                            <!-- <h3>GET MORE DONE</h3> 
                             <h1>Manage wedding events</h1>
                             <h1>including vendors, timelines,</h1>
                             <h1>and guest transportation.</h1>
@@ -325,18 +403,33 @@
                                 your dream wedding with Happywed's logistics
                                 tools."
                             </p>
-                            <!-- <a :href="links.invitations">Create invitation</a> -->
+                            <!-- <a :href="links.invitations">Create invitation</a> 
                         </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <img
+                            style="width: 100%"
+                            src="/assets/manager_tools/sec10img.png"
+                            alt=""
+                        />
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="section-3" class="container-fluid position-relative">
+        </div>-->
+        <!--<div id="section-3" class="container-fluid position-relative">
             <div class="container-lg">
                 <div class="row">
+                    
+                    <div class="col-sm-6" style="text-align: end">
+                        <img
+                            style="width: 80%"
+                            src="/assets/manager_tools/sec11img.svg"
+                            alt=""
+                        />
+                    </div>
                     <div class="col-sm-6">
                         <div class="section-3-content">
-                            <!-- <h3>GET MORE DONE</h3> -->
+                            <!-- <h3>GET MORE DONE</h3> 
                             <h1 style="text-align: left">
                                 "Stay on track with Tasklist:
                             </h1>
@@ -356,19 +449,12 @@
                                 party or vendors, keeping everyone on the same
                                 page.
                             </p>
-                            <!-- <a :href="links.invitations">Create invitation</a> -->
+                            <!-- <a :href="links.invitations">Create invitation</a> 
                         </div>
-                    </div>
-                    <div class="col-sm-6" style="text-align: end">
-                        <img
-                            style="width: 80%"
-                            src="/assets/manager_tools/sec11img.svg"
-                            alt=""
-                        />
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="new-revi-cont">
             <div class="pink-bar"></div>
             <h1 class="top-heading">Testimonials of what our clients thinks</h1>

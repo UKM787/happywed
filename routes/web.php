@@ -35,8 +35,12 @@ use App\Http\Controllers\Guest\GuestController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Host\LogisticsController as HostLogisticsController;
 use App\Models\Admin\CategoryMaster;
-use App\Models\ShortUrl;
 use Illuminate\Support\Facades\Crypt;
+use App\Http\Controllers\Host\CeramonyController as HostCeramonyController;
+use App\Http\Controllers\Admin\CeramonyController as AdminCeramonyController;
+use App\Http\Controllers\Host\GalleryController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -372,19 +376,8 @@ Route::group(['namespace' => 'Guest', 'prefix' => 'guest'], function () {
 Route::post('{host}/hostmobile', 'Host\HostController@mobilenumber')->name('addHostmobile');
 Route::post('{host}/createAlbum', 'Host\GalleryController@createAlbum')->name('addAlbum');
 Route::delete('{host}/deleteAlbum/{album}', 'Host\GalleryController@deleteAlbum')->name('deleteAlbum');
-Route::delete('{host}/deleteVideo/{video}', 'Host\GalleryController@videoDestroy')->name('deleteVideo');
 
-Route::group(['namespace' => 'Host', 'prefix' => 'host', 'as' => 'host'], function () {
-    //password reset links for hosts
-    Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-    Route::post('/password/reset/{url}', [ForgotPasswordController::class, 'sendResetLinkEmail'])->middleware('throttle:6,1')->name('password.email');
-    Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-});
-
-//Route::group(['namespace' => 'Host', 'middleware' => ['auth:company,vendor,host','verified']], function()
-//Route::group(['namespace' => 'Host'], function()
-Route::group(['namespace' => 'Host', 'middleware' => ['auth:host', 'verified', 'checkHostSubscription']], function () {
+Route::group(['namespace' => 'Host', 'middleware' => ['auth:host', 'verified', 'checkHostSubscription'], 'prefix' => 'host', 'as' => 'host'], function () {
     Route::get('/getmembers', 'MemberController@getmembers');
     Route::post('/storemember', 'MemberController@storemember');
     Route::post('/updatemembers/{id}', 'MemberController@updatemembers');
@@ -400,7 +393,13 @@ Route::group(['namespace' => 'Host', 'middleware' => ['auth:host', 'verified', '
 
     Route::post('/submit', 'Invitation\ContactController@submit');
     Route::get('/getcontacts', 'Invitation\ContactController@getcontacts');
+    Route::resource('gallery', 'GalleryController');
+    Route::post('{host}/video', 'GalleryController@videoStore')->name('host.videoUpload');
+    Route::delete('{host}/deleteVideo/{video}', 'GalleryController@videoDestroy')->name('host.deleteVideo');
+    Route::post('{host}/picture', 'GalleryController@pictureStore')->name('host.pictureUpload');
+    Route::delete('{host}/deletePicture/{picture}', 'GalleryController@pictureDestroy')->name('host.deletePicture');
 });
+
 //Route::group(['namespace' => 'Host', 'middleware' => ['auth:company,vendor,host','verified'], 'prefix' => 'host', 'as' => 'host'], function ()
 //Route::group(['namespace' => 'Host', 'prefix' => 'host', 'as' => 'host'], function () 
 Route::group(['namespace' => 'Host', 'middleware' => ['auth:host', 'verified', 'checkHostSubscription'], 'prefix' => 'host', 'as' => 'host'], function () {
@@ -747,3 +746,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 //Add new route here
+Route::post('/host/{host}/memory-upload', [GalleryController::class, 'memoryUpload'])->name('host.memoryUpload');
+Route::delete('/host/{host}/memory/{memoryId}', [GalleryController::class, 'deleteMemory'])->name('host.deleteMemory');
+Route::delete('/host/{host}/album-item/{itemId}', [GalleryController::class, 'deleteAlbumItem'])->name('host.deleteAlbumItem');

@@ -48,7 +48,7 @@ class CeramonyController extends Controller {
             $invitation = Invitation::where('slug', $invi)->first();
                 $ceramonies = $invitation->ceramonies($invitation)->orderBy('startDate', 'asc')->orderBy('startTime', 'asc')->with('venues')->get();
                 //dd($ceramonies);
-                 $ceramonyAdded = $invitation->ceramonies->pluck('name')->toArray();
+                $ceramonyAdded = $invitation->ceramonies->pluck('name')->toArray();
                 $ceramonyName = CeramonyMaster::orderBy('type', 'asc')->where('name', '!=', 'Custom')->whereNotin('name', $ceramonyAdded)->get()->map->only('name', 'id', 'type')->toArray();
                 $custom = CeramonyMaster::where('name', 'Custom')->get()->map->only('name', 'id')->first();
                 array_push($ceramonyName, $custom);

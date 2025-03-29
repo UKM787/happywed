@@ -2,7 +2,10 @@
     <div>
         <div class="host-home-main-cont">
             <div class="host-home-left-cont">
-                <h1>Welcome {{ loggedIn.name }}..</h1>
+                <h1>Welcome <span>{{ invitation.side == 'bride' ? 
+                                `${invitation.brideMotherName} & ${invitation.brideFatherName}` : 
+                                `${invitation.groomMotherName} & ${invitation.groomFatherName}` 
+                            }}</span></h1>
                 <!-- <p
                     class="wed-btn wed-btn-main"
                     style="width: max-content; padding: 10px 15px"
@@ -72,7 +75,7 @@
                     v-if="screenWidth < 631 && todaySchedule.length > 0"
                     class="host-today-task"
                 >
-                    <h1>Today’s Task</h1>
+                    <h1>Today's Task</h1>
                     <div>
                         <div
                             v-for="item in todaySchedule"
@@ -84,7 +87,7 @@
                                     <span></span>
                                     {{ item.taskStatus }}
                                 </span>
-                                <span>{{ item.category.name }}</span>
+                                <span>{{ item.category.name.charAt(0).toUpperCase() + item.category.name.slice(1).toLowerCase() }}</span>
                             </div>
                             <div class="host-today-task-assign">
                                 Assigned to
@@ -252,7 +255,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="host-dash-reports-cont">
+                        <!--<div class="host-dash-reports-cont">
                             <h1
                                 @click="
                                     show == 'reports'
@@ -379,7 +382,7 @@
                                     >
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="guest-left-not-vendor-cont">
                         <div class="host-guest-member-cont">
@@ -526,7 +529,7 @@
                     v-if="screenWidth > 631 && todaySchedule.length > 0"
                     class="host-today-task"
                 >
-                    <h1>Today’s Task</h1>
+                    <h1>Today's Events</h1>
                     <div>
                         <div
                             v-for="item in todaySchedule"
@@ -538,12 +541,12 @@
                                     <span></span>
                                     {{ item.taskStatus }}
                                 </span>
-                                <span>{{ item.category.name }}</span>
+                                <span>{{ item.category.name.charAt(0).toUpperCase() + item.category.name.slice(1).toLowerCase() }}</span>
                             </div>
-                            <div class="host-today-task-assign">
+                            <!--<div class="host-today-task-assign">
                                 Assigned to
                                 <span>: {{ item.assignable.name }}</span>
-                            </div>
+                            </div>-->
                             <p>
                                 {{ item.title }}
                             </p>
@@ -591,8 +594,8 @@
                         class="host-cal-head"
                     >
                         <div>
-                            <div>Upcoming tasks</div>
-                            <div>Don’t miss the upcoming tasks</div>
+                            <div>Upcoming Events</div>
+                            <div>Don't miss the upcoming Events</div>
                         </div>
                         <!-- <a
                             v-if="screenWidth > 631"
@@ -614,30 +617,23 @@
                     <div v-show="show == 'upcomingEvents' || screenWidth >= 631">
                         <div class="cal-cont">
                             <Calendar
+                                ref="calendar"
+                                :value="initialCalendarDate"
                                 :attributes="attr"
-                                :masks="{ title: 'MMMM' }"
+                                :masks="{ title: 'MMMM YYYY' }"
                                 @dayclick="dayclicked"
+                                @input="updateYear"
+
                             >
-                                <template #day-popover="{ dayTitle }">
-                                    <div
-                                        class="text-xs text-gray-300 font-semibold text-center"
-                                    >
+                                <template #day-popover="{ day, dayTitle }">
+                                    <div class="text-xs text-gray-300 font-semibold text-center">
                                         {{ dayTitle }}
                                     </div>
-                                    <div
-                                        v-for="(item, index) in todos"
-                                        :key="index"
-                                    >
-                                        <div
-                                            v-if="
-                                                `'` +
-                                                    new Date(item.startDate) +
-                                                    `'` ==
-                                                `'` + new Date(date.id) + `'`
-                                            "
-                                        >
-                                            <div>
-                                                {{ item.title }}
+                                    <div v-for="(item, index) in filteredTodosForCalendar" :key="index">
+                                        <div v-if="item.startDate === day.date.toISOString().split('T')[0]" class="popover-content">
+                                            <div class="popover-title">{{ item.title ? (item.title.charAt(0).toUpperCase() + item.title.slice(1).toLowerCase()) : '' }}</div>
+                                            <div v-if="item.type === 'ceremony'" class="popover-time">
+                                                {{ new Date("1970-01-01T" + item.startTime) | moment("h:mm a") }}
                                             </div>
                                         </div>
                                     </div>
@@ -661,15 +657,15 @@
                                     </span>
                                     <span class="event-time">{{
                                         new Date("1970-01-01T" + item.startTime)
-                                            | moment("h:mm a")
+                                            | moment("H:MM A")
                                     }}</span>
-                                    <span>{{ item.category.name }}</span>
+                                    <span>{{ item.category.name.charAt(1).toUpperCase(1) + item.category.name.slice(2).toLowerCase() }}</span>
                                 </div>
-                                <div class="host-today-task-assign">
+                                <!--<div class="host-today-task-assign">
                                     Assigned to
                                     <span>: {{ item.assignable.name }}</span>
-                                </div>
-                                <p>
+                                </div>-->
+                                <p style="font-size: 20px;">
                                     {{ item.title }}
                                 </p>
                                 <div
@@ -687,6 +683,10 @@
                         </div>
                         <div class="no-tasks" v-else>No Tasks Added yet!</div>
                     </div>
+                </div>
+
+                <div v-if="date.name" class="date-name-cont">
+                    {{date.name}}
                 </div>
                 <div v-if="screenWidth < 631 && invitation" class="host-testi-cont">
                             <img src="/assets/testi.png" alt="" />
@@ -817,9 +817,118 @@ export default {
                 year: new Date().getFullYear(),
                 month: new Date().getMonth(),
             },
+            latestCeremonyDate: null,
         };
     },
+     watch: {
+        todos: {
+            handler(newTodos, oldTodos) {
+                // Find the most recently added ceremony
+                const newCeremonies = newTodos.filter(todo => todo.type === 'ceremony' && !oldTodos.some(oldTodo => oldTodo.id === todo.id));
+                if (newCeremonies.length > 0) {
+                    this.latestCeremonyDate = new Date(newCeremonies[0].startDate);
+                }
+            },
+            deep: true
+        },
+        latestCeremonyDate(newDate) {
+            if (newDate) {
+              this.$nextTick(() => {
+                this.$refs.calendar.move(this.initialCalendarDate);
+              });
+            }
+        }
+    },
+    computed: {
+        initialCalendarDate() {
+            return this.getInitialCalendarDate();
+        },
+        attr() {
+            return [
+                ...this.todos.map((todo) => ({
+                    dates: todo.startDate,
+                    highlight: {
+                        style: {
+                            backgroundColor:
+                                todo.type === "ceremony" ? "#912955" : "#C4456F",
+                            borderRadius: "5px",
+                        },
+                        contentStyle: {
+                            color: "#FFFFFF",
+                        },
+                    },
+                    popover: {
+                        isInteractive: true,
+                        visibility: "click",
+                        placement: "bottom",
+                        hideIndicator: true,
+                    },
+                    customData: todo,
+                })),
+            ];
+        },
+        filteredTodosForCalendar() {
+            return this.todos
+                .filter((item) => {
+                    const eventYear = new Date(item.startDate).getFullYear();
+                    return eventYear === this.date.year;
+                })
+                .sort((a, b) => {
+                    // Prioritize ceremonies
+                    if (a.type === "ceremony" && b.type !== "ceremony") {
+                        return -1;
+                    }
+                    if (a.type !== "ceremony" && b.type === "ceremony") {
+                        return 1;
+                    }
+                    // Sort by start date for items of the same type
+                    return new Date(a.startDate) - new Date(b.startDate);
+                });
+        },
+        todaySchedule() {
+            let todayevents = [];
+            let today = new Date().toDateString();
+            this.todos.forEach((item) => {
+                if (
+                    '"' + new Date(item.startDate).toDateString() + '"' ==
+                    '"' + today + '"'
+                ) {
+                    todayevents.push(item);
+                }
+            });
+            return todayevents;
+        },
+    },
+    mounted() {
+        this.$nextTick(() => {
+            window.addEventListener("resize", this.setWidth);
+            if (this.invitation) {
+                this.countDown();
+            }
+            this.$nextTick(() => {
+                this.$refs.calendar.move(this.initialCalendarDate);
+            });
+        });
+
+    },
     methods: {
+        getInitialCalendarDate() {
+            if (this.latestCeremonyDate) {
+                return this.latestCeremonyDate;
+            }
+
+            if (this.todos && this.todos.length > 0) {
+                const ceremonies = this.todos.filter(todo => todo.type === 'ceremony');
+                if (ceremonies.length > 0) {
+                    // Find the earliest ceremony date
+                    const earliestCeremony = ceremonies.reduce((earliest, current) => {
+                        return new Date(current.startDate) < new Date(earliest.startDate) ? current : earliest;
+                    });
+                    return new Date(earliestCeremony.startDate);
+                }
+            }
+            return this.invitation?.startDate ? new Date(this.invitation.startDate) : new Date();
+        },
         dayclicked(day) {
             this.date.id = day.id;
             this.date.day = day.day;
@@ -840,13 +949,11 @@ export default {
         },
         countDown() {
             const fixedDate = this.invitation.startDate;
-            //console.log(fixedDate);
             const deadlineTimer = document.querySelectorAll(
                 ".guest-banner-timer-single > span:nth-child(1)"
             );
 
             const futureDate = new Date(fixedDate);
-
             const futureTime = futureDate.getTime();
 
             function getRemainingTime() {
@@ -889,6 +996,9 @@ export default {
             let countdown = setInterval(getRemainingTime, 1000);
             getRemainingTime();
         },
+        updateYear(date) {
+            this.date.year = new Date(date).getFullYear();
+        },
         sendTesti() {
             let _this = this;
             _this.disableSubmit = true;
@@ -926,62 +1036,21 @@ export default {
                 });
         }
     },
-    computed: {
-        attr() {
-            return [
-                // Attributes for todos
-                ...this.todos.map((todo) => ({
-                    dates: todo.startDate,
-                    highlight: {
-                        style: {
-                            backgroundColor: "#C4456F",
-                        },
-                        contentStyle: {
-                            color: "#FFFFFF",
-                        },
-                    },
-                    // popover: true,
-                    popover: {
-                        isInteractive: true,
-                        visibility: "click",
-                    },
-                    customData: todo,
-                })),
-                // {
-                //     key: "today",
-                //     highlight: {
-                //         style: {
-                //             backgroundColor: "#EB5757",
-                //         },
-                //     },
-                //     dates: new Date(),
-                // },
-            ];
-        },
-        todaySchedule() {
-            let todayevents = [];
-            let today = new Date().toDateString();
-            this.todos.forEach((item) => {
-                if (
-                    '"' + new Date(item.startDate).toDateString() + '"' ==
-                    '"' + today + '"'
-                ) {
-                    todayevents.push(item);
-                }
-            });
-            return todayevents;
-        },
-    },
-    mounted() {
-        this.$nextTick(() => {
-            window.addEventListener("resize", this.setWidth);
-            this.countDown();
-        });
-    },
 };
 </script>
 
 <style scoped>
+.popover-content {
+    padding: 5px;
+}
+.popover-title {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+.popover-time {
+    font-size: 0.8em;
+    color: #666;
+}
 .host-home-main-cont {
     display: flex;
     flex-wrap: nowrap;
@@ -1628,9 +1697,9 @@ export default {
     font-family: "Poppins";
     font-style: normal;
     font-weight: 500;
-    font-size: 8.63758px;
+    font-size: 9.63758px;
     line-height: 13px;
-    color: #a9a9a9;
+    color: green;
 }
 .host-explore-vendor {
     display: flex;

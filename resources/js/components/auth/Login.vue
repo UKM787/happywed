@@ -33,7 +33,7 @@
                 >
                     <input type="hidden" name="_token" v-bind:value="csrf" />
                     <label for="email" class="login-form-group">
-                        E-Mail Address/ Mobile
+                        Mobile
                         <input
                             type="text"
                             name="email"
@@ -47,6 +47,8 @@
                             class="errMsg"
                             >{{ errorSubmit.email[0] }}</span
                         >
+                        <span v-if="msgerr" class="errMsg">
+                        {{ msgerr }}</span>
                     </label>
 
                     <div
@@ -155,6 +157,8 @@
                             class="errMsg"
                             >{{ asyncErrorSubmit.mobile[0] }}</span
                         >
+                        <span v-if="msgerr" class="errMsg">
+                        {{ msgerr }}</span>
                     </label>
 
                     <div
@@ -188,15 +192,22 @@
                             >{{ errorSubmit.otp[0] }}</span
                         >
                     </label>
+                    <button 
+                    v-if="selectedUser == null"
+                        @click="checkUserExists()"
+                        type="button"
+                        :disabled="disableLogIn">
+                        Send OTP
+                    </button>
                     <button
                         @click="sendOtp"
-                        v-if="otpSent == false"
+                        v-else-if="otpSent == false && (selectedUser == 'guest' || selectedUser == 'vendor' || selectedUser == 'admin')"
                         type="button"
                         :disabled="disableLogIn"
                     >
                         Send Otp
                     </button>
-                    <div v-else>
+                    <div v-if="otpSent == true">
                         <button type="submit" :disabled="disableLogIn">
                             Log In
                         </button>
@@ -385,6 +396,7 @@ export default {
     },
     data() {
         return {
+
             splider: null,
             active: null,
             disableLogIn: false,
@@ -396,7 +408,9 @@ export default {
             //formRoute: route("hostLogin"),
             csrf: $('meta[name="csrf-token"]').attr("content"),
             showPass: "password",
-            loginWithOtp: this.url == 'guest' ? true :false,
+            loginWithOtp: true,
+            clickedUserCheck: false,
+           // loginWithOtp: this.url === "vendor" ? false : this.url === "admin" ? false : true,
             otpSent: false,
             message: null,
             asyncErrorSubmit: null,
@@ -420,6 +434,7 @@ export default {
                     ? "vendor"
                     : null,
             errMsg: null,
+            msgerr: null,
         };
     },
     methods: {
@@ -440,6 +455,10 @@ export default {
                 data: formData,
             })
                 .then((response) => {
+                    if(response.data?.redirect){
+                        window.location.href = response.data.redirect;
+                        return;
+                    }
                     _this.disableLogIn = false;
                     console.log(response.data);
                     if (response.data["type"] == "success") {
@@ -566,6 +585,7 @@ export default {
             let _this = this;
             _this.disableLogIn = true;
             _this.errMsg = null;
+            _this.msgerr = null;
             _this.multiUsers = [];
             _this.userExists = false;
             _this.multiUsersExist = false;
@@ -583,6 +603,10 @@ export default {
                 data: formData,
             })
                 .then((response) => {
+                    if(response.data?.redirect){
+                        window.location.href = response.data.redirect;
+                        return;
+                    }
                     _this.disableLogIn = false;
                     _this.multiUsers = response.data;
                     if (_this.multiUsers.length > 1) {
@@ -593,12 +617,14 @@ export default {
                     }
                     _this.userExists = true;
                     _this.errMsg = null;
-
-                    console.log(response.data);
+                    if(_this.loginWithOtp == true){
+                        _this.sendOtp();
+                    }
                 })
                 .catch((error) => {
                     _this.disableLogIn = false;
-                    _this.errMsg = error.response.data.message;
+                    _this.asyncErrorSubmit = error.response.data.errors;
+                    _this.msgerr = error.response?.data?.message;
                     console.log(error.response);
                 });
         },
@@ -702,8 +728,8 @@ export default {
 
 <style scoped>
 .errMsg {
-    color: red;
-    font-size: 10px;
+    color: red !important;
+    font-size: 10px !important;
 }
 .login-main-cont {
     background-color: #fff;
